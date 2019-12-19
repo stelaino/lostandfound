@@ -1,4 +1,4 @@
-package com.sakila.utils;
+package com.qf.laf.utils;
 
 import java.util.UUID;
 
