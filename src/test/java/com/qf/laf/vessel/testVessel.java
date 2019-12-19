@@ -27,5 +27,6 @@ public class testVessel extends BaseSpringTest {
     public void testLogger() {
         Logger logger = LoggerFactory.getLogger(testVessel.class);
         logger.info("这是一条测试用的日志");
+        System.out.println(1);
     }
 }
