@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员登录</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="asserts/plugins/jquery/jquery-3.4.1.min.js"></script>
+    <script src="asserts/project/js/include.js"></script>
+    <script src="asserts/plugins/drag/js/drag.js"></script>
+    <link href="asserts/plugins/drag/css/drag.css" rel="stylesheet">
+    <link href="asserts/plugins/drag/css/styles.css" rel="stylesheet">
+    <link href="asserts/plugins/drag/css/default.css" rel="stylesheet">
+    <link href="asserts/plugins/drag/css/normalize.css" rel="stylesheet">
+    <script type="text/javascript">
+        $(function () {
+            $("#drag").drag()
+        })
+    </script>
+</head>
+<body>
+<div class="htmleaf-container">
+    <div class="wrapper">
+        <div class="container">
+            <h1>管理员登录</h1>
+            <form class="form" style="text-align: center">
+                <input type="text" id="aName" placeholder="Username">
+                <input type="password" id="aPassword" placeholder="Password">
+                <div id="drag"></div>
+                <button type="button" id="login-button">Login</button>
+            </form>
+        </div>
+
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+</body>
+<div style="height: 550px"></div>
+<div id="footer"></div>
+</html>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.laf.mapper.IUserMapper">
+    <resultMap id="userMap" type="User">
+        <id property="uId" column="u_id"/>
+        <result property="uName" column="u_name"/>
+        <result property="uPassword" column="u_password"/>
+        <result property="sex" column="sex"/>
+        <result property="phone" column="email"/>
+        <result property="email" column="email"/>
+<!--        <result property="createTime" column="create_time" javaType="java.util.Date"/>-->
+    </resultMap>
+    <select id="checkUserUId" resultType="Integer">
+        select u_id from user where u_name=#{user.uName} and u_password=#{user.uPassword};
+    </select>
+
+    <select id="getUserByUId" resultMap="userMap">
+        select * from user where is_delete=1 and u_id=#{id};
+    </select>
+</mapper>

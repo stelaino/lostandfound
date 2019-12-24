@@ -58,4 +58,7 @@
     <select id="getNotVerityPickup" resultMap="pickup_details">
         select * from pickup where is_delete=1 and verify_status=0;
     </select>
+    <select id="getAIdByAdministator" resultType="Integer">
+        select a_id from administrator where is_delete=1 and a_name=#{admin.aName} and a_password=#{admin.aPassword};
+    </select>
 </mapper>

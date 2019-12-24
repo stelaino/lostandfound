@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布</title>
+    <script src="asserts/plugins/jquery/jquery-3.4.1.min.js"></script>
+    <script src="asserts/project/js/include.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#toAddLost").click(function () {
+                $.ajax("http://localhost:8080/lostandfound/user/checkLoginStatus", {
+                    type: "POST",
+                    data: {
+                        surl: "lostAdd.html"
+                    },
+                    success: function (msg) {
+                        console.log(msg);
+                        if (msg == "true") {
+                            location.href = "lostAdd.html";
+                        } else {
+                            location.href = "login.html";
+                        }
+                    }
+                })
+            })
+
+            $("#toAddPickup").click(function () {
+                $.ajax("http://localhost:8080/lostandfound/user/checkLoginStatus", {
+                    type: "POST",
+                    success: function (msg) {
+                        console.log(msg);
+                        if (msg == "true") {
+                            location.href = "pickupAdd.html";
+                        } else {
+                            location.href = "login.html";
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="header"></div>
+<div style="width: 950px;height:30px;margin: 0 auto;margin-top: 150px;line-height: 20px">
+    <strong style="color: white;">请选择发布启事类别，并阅读下方须知：</strong>
+</div>
+
+<div style="height: 160px;width: 600px;margin: 0 auto;margin-top: 20px;">
+    <a>
+        <div style="width: 150px;height: 150px;float: left;margin-left: 30px;">
+            <img src="asserts/images/select-xuan.png" style="width: 150px;height: 150px;">
+        </div>
+    </a>
+    <a href="#" id="toAddLost">
+        <div style="width: 150px;height: 150px;float: left;margin-left: 30px;">
+            <img src="asserts/images/select-xun.png" style="width: 150px;height: 150px;">
+        </div>
+    </a>
+    <a href="#" id="toAddPickup">
+        <div style="width: 150px;height: 150px;float: left;margin-left: 30px;">
+            <img src="asserts/images/select-zhao.png" style="width: 150px;height: 150px;">
+        </div>
+    </a>
+</div>
+
+<div style="width: 950px;height:250px;margin: 0 auto;margin-top: 20px;line-height: 27px">
+    <p style="color: white;">
+        <strong>认真阅读以下须知，发布提交说明自愿接受相关条款约束：</strong><br/>
+        1、无论您是拾者还是失主，请务必认真填写，所有信息需要审核后方可显示！<br/>
+        2、信息的真实性与合法性由信息提供者负责，请谨慎审核，理性抉择，避免给您或他人造成不必要的损失。<br/>
+        <span style="color: red;">
+                3、特别提醒：由于骗子较多，请在发布时和发布后提高警惕，谨防上当受骗，对此本站不承担任何责任。
+            </span><br/>
+        4、本网站对用户所提供的信息的真实性及准确性不承担任何责任，如果因信息真实性或冒发他人信息所引起的纠纷及责任乃至法律责任，均由原信息发布人自行承担，本站不承担任何责任。
+    </p>
+</div>
+<div id="footer"></div>
+</body>
+</html>

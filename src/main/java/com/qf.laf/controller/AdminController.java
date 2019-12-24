@@ -1,8 +1,10 @@
 package com.qf.laf.controller;
 
+import com.qf.laf.entity.Administrator;
 import com.qf.laf.entity.Lost;
 import com.qf.laf.entity.Pickup;
 import com.qf.laf.service.IAdministratorService;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +19,17 @@ public class AdminController {
     @Resource
     IAdministratorService administratorService;
 
+    @RequestMapping("/login")
+    public Boolean administratorLogin(@RequestBody Administrator administrator) {
+        System.out.println(administrator);
+        if (administrator != null) {
+            Integer aId = administratorService.getAIdByAdministator(administrator);
+            if (aId != null) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @RequestMapping("/getNotVerityLost")
     public List<Lost> getNotVerityLost() {

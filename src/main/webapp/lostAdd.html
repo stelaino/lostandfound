@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>物品丢失发帖求助页面</title>
-    <link href="asserts/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="asserts/plugins/validator/bootstrapValidator.css" rel="stylesheet">
-    <link href="asserts/plugins/bootstrap-select/css/bootstrap-select.css">
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-    <script src="asserts/plugins/jquery/jquery-3.4.1.min.js"></script>
-    <script src="asserts/plugins/bootstrap/js/bootstrap.js"></script>
+<!--    <link href="asserts/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">-->
+<!--    <link href="asserts/plugins/bootstrap-select/css/bootstrap-select.css">-->
+<!--    &lt;!&ndash;[if lt IE 9]>-->
+<!--    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>-->
+<!--    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>-->
+<!--    <![endif]&ndash;&gt;-->
+<!--    <script src="asserts/plugins/jquery/jquery-3.4.1.min.js"></script>-->
+<!--    <script src="asserts/plugins/bootstrap/js/bootstrap.js"></script>-->
 
+<!--    <script src="asserts/plugins/validator/zh_CN.js"></script>-->
+    <script src="asserts/plugins/jquery/jquery-3.4.1.min.js"></script>
+    <script src="asserts/project/js/include.js"></script>
+        <link href="asserts/plugins/validator/bootstrapValidator.css" rel="stylesheet">
     <script src="asserts/plugins/validator/bootstrapValidator.js"></script>
     <script src="asserts/plugins/validator/zh_CN.js"></script>
     <script src="asserts/plugins/distpicker/distpicker.min.js"></script>
+<!--    添加头部-->
     <script type="text/javascript">
 
         $(function () {
@@ -49,26 +53,6 @@
                         city:data.content.address_detail.city
                     });
                 }
-            })
-
-            var a_idx = 0;
-            $("body").click(function (e) {
-                var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
-                var $i = $("<span/>").text(a[a_idx]);
-                a_idx = (a_idx + 1) % a.length;
-                var x = e.pageX, y = e.pageY;
-                $i.css({
-                    "z-index": 100000000,
-                    "top": y - 20,
-                    "left": x,
-                    "position": "absolute",
-                    "font-weight": "bold",
-                    "color": "#ff98bb"
-                });
-                $("body").append($i);
-                $i.animate({"top": y - 180, "opacity": 0}, 1500, function () {
-                    $i.remove();
-                });
             });
 
             $("#img1").change(function () {
@@ -141,6 +125,7 @@
                             threshold:1,
                             remote: {
                                 url: "http://localhost:8080/lostandfound/lost/checkTitle",
+                                delay:300,
                                 data: {
                                     title: $("#title").val()
                                 },
@@ -182,6 +167,7 @@
                     dataType:"json",
                     success: function (message) {
                         console.log(message);
+                        location.href = "userlost.html";
                     },
                     error:function (message) {
                         console.log(message);
@@ -191,40 +177,62 @@
             });
         })
     </script>
+    <style type="text/css">
+        label{
+            color: white;
+        }
+    </style>
 </head>
 <body>
+<div id="header"></div>
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8 col-md-offset-2">
             <div class="form-group">
                 <form class="form-horizontal" id="form">
+                    <div class="form-group" style="text-align: center;color: green">
+                        <h2>失物启示登记</h2>
+                    </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3">省份</label>
+                        <label class="control-label col-md-3">贴文标题</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="请填写" name="title" id="title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">详情描述</label>
+                        <div class="col-md-4">
+                            <textarea cols="50" rows="10" placeholder="请填写" name="body" id="body"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">丢失省市</label>
                         <div class="col-md-4" id="distpicker">
                             <select name="lProvince" class="bootstrap-select"></select>
                             <select name="lCity" class="selected"></select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3">详细地址</label>
+                        <label class="control-label col-md-3">丢失详细范围</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control"  name="lAddress" placeholder="请填写" id="lAddress">
+                            <input type="text" class="form-control" name="lAddress" placeholder="请填写" id="lAddress">
                         </div>
                     </div>
-                    <div class="form-group" >
+                    <div class="form-group">
                         <label class="control-label col-md-3">丢失时间</label>
                         <div class="col-md-4">
-                            <input type="date" class="form-control" name="lTime" id="lTime" >
+                            <input type="date" class="form-control" name="lTime" id="lTime">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">*失物类别：</label>
                         <div class="col-md-4">
-                            <select class="bs-select form-control" data-show-subtext="true" tabindex="-98" name="type"  id="type">
+                            <select class="bs-select form-control" data-show-subtext="true" tabindex="-98" name="type"
+                                    id="type">
                                 <option>请选择</option>
                                 <option selected="selected">钱包</option>
-                                <option >钥匙</option>
-                                <option >宠物</option>
+                                <option>钥匙</option>
+                                <option>宠物</option>
                                 <option>卡类/证照</option>
                                 <option>数码产品</option>
                                 <option>手袋/挎包</option>
@@ -239,66 +247,53 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">贴文有效期</label>
                         <div class="col-md-4">
-                            <input type="date" class="form-control"  name="expiration" id="expiration" id="expiration" >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">贴文标题</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="请填写"  name="title"  id="title">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">详情描述</label>
-                        <div class="col-md-4">
-<!--                            <input type="text" class="form-control" placeholder="请填写"  name="describe" id="describe" >-->
-                            <textarea cols="80" rows="10" placeholder="请填写"  name="body" id="body"></textarea>
+                            <input type="date" class="form-control" name="expiration" id="expiration" id="expiration">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">物品图片一</label>
                         <div class="col-md-4">
-                            <input type="file"  name=" " id="img1">
+                            <input type="file" name=" " id="img1">
                             <input type="hidden" id="pic1" name="pic1" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">物品图片二</label>
                         <div class="col-md-4">
-                            <input type="file"  name=" " id="img2">
+                            <input type="file" name=" " id="img2">
                             <input type="hidden" id="pic2" name="pic2" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">联系人</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="请填写联系人"  name="contact"  id="contact">
+                            <input type="text" class="form-control" placeholder="请填写联系人" name="contact" id="contact">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">联系电话</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="请填写联系人电话"  name="lPhone"  id="lPhone">
+                            <input type="text" class="form-control" placeholder="请填写联系人电话" name="lPhone" id="lPhone">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">电子邮箱</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="请填写邮箱"  name="lEmail" id="lEmail" >
+                            <input type="text" class="form-control" placeholder="请填写邮箱" name="lEmail" id="lEmail">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">登陆者id</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="填写数字"  name="uId"  id="uId">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">审核状态</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="填写数字"  name="verifyStatus"  id="verifyStatus">
-                        </div>
-                    </div>
+                    <!--                    <div class="form-group">-->
+                    <!--                        <label class="control-label col-md-3">登陆者id</label>-->
+                    <!--                        <div class="col-md-4">-->
+                    <!--                            <input type="text" class="form-control" placeholder="填写数字"  name="uId"  id="uId">-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="form-group">-->
+                    <!--                        <label class="control-label col-md-3">审核状态</label>-->
+                    <!--                        <div class="col-md-4">-->
+                    <!--                            <input type="text" class="form-control" placeholder="填写数字"  name="verifyStatus"  id="verifyStatus">-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                     <div class="form-group">
                         <label class="control-label col-md-3">提交</label>
                         <div class="col-md-4">
@@ -309,7 +304,9 @@
             </div>
         </div>
     </div>
+    <div id="footer"></div>
+    <
 </div>
-</div>
+/div>
 </body>
 </html>

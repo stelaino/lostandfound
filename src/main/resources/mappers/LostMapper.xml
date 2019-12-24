@@ -3,10 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qf.laf.mapper.ILostMapper">
     <sql id="addTabSql">
-        l_province, l_city, l_address, l_time, title, type, expiration, body, pic_1, pic_2, contact, l_phone, l_email, u_id,verify_status,created_time
+        l_province, l_city, l_address, l_time, title, type, expiration, body, pic_1, pic_2, contact, l_phone, l_email, u_id,created_time
     </sql>
     <sql id="addEntSql">
-        #{lost.lProvince},#{lost.lCity},#{lost.lAddress},#{lost.lTime},#{lost.title},#{lost.type},#{lost.expiration},#{lost.body},#{lost.pic1},#{lost.pic2},#{lost.contact},#{lost.lPhone},#{lost.lEmail},#{lost.uId},#{lost.verifyStatus},now()
+        #{lost.lProvince},#{lost.lCity},#{lost.lAddress},#{lost.lTime},#{lost.title},#{lost.type},#{lost.expiration},#{lost.body},#{lost.pic1},#{lost.pic2},#{lost.contact},#{lost.lPhone},#{lost.lEmail},#{lost.uId},now()
     </sql>
     <resultMap id="lost_details" type="Lost">
         <id property="lMsgId" column="l_msg_id"/>
@@ -45,7 +45,7 @@
         select * from lost where is_delete=1 and l_msg_id=#{lMsgId};
     </select>
     <select id="getLostListByUId" resultMap="lost_details">
-        select * from lost where is_delete=1 and u_id=#{uId};
+        select * from lost where is_delete=1 and u_id=#{uId} GROUP BY modify_time desc;
     </select>
 
     <update id="deleteLostByLMsgId">

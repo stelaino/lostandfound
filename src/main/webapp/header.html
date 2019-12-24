@@ -1,0 +1,114 @@
+<script src="asserts/plugins/bootstrap/js/dicta.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#tips").html(getDictumin());
+        $.ajax("http://localhost:8080/lostandfound/user/getUser",{
+            type:"POST",
+            dataType: "JSON",
+            success:function (msg) {
+                if (msg != null) {
+                    $("#uName").html(msg.uName);
+                    $("#ucen1").css("display", "block");
+                    $("#ucen2").css("display","block");
+                    $("#lout").css("display", "block");
+                    $("#lgin").css("display","none")
+                }
+            }
+        })
+
+        $("#logout").click(function () {
+            $.ajax("http://localhost:8080/lostandfound/user/logout",{
+                type: "POST",
+                dataType: "JSON",
+                success:function (msg) {
+                    console.log(msg);
+                    if (msg == true) {
+                        location.href = "login.html";
+                    } else {
+                        alert("用户还未登录，无需注销");
+                    }
+                }
+            });
+        });
+    })
+</script>
+<style type="text/css">
+    #hiddenCity {
+        display: none;
+    }
+</style>
+<header id="header">
+
+    <!-- Tips框 -->
+    <div class="container-fluid" style="height: 28px;background-color: #8c8c8c;line-height: 28px">
+        <div style="float: left">
+            <span id="tips" style="color: white"></span>
+        </div>
+        <div style="float: right;width: 80px;">
+            <a href="aboutUs.html"><font color="white">关于我们</font></a>
+        </div>
+        <div style="float: right;width: 80px;">
+            <a href="sponsor.html"><font color="white">赞助我们</font></a>
+        </div>
+    </div>
+
+
+    <div class="container-fluid" style="height: 45px;background-color: #fcf8e3;line-height: 60px">
+        <div class="row">
+            <div class="col-md-1 col-md-offset-2">
+                <div style="height: 60px;width: 50px;float: left;">
+                    <a href="headPage.html">
+                        <img src="asserts/images/swzl1.jpg" style="height: 65px;border-radius: 15px;">
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-1 col-md-offset-1">
+                <!--寻物-->
+                <a href="xunwu.html">
+                    <div style="height: 45px;width: 60px;float: left;margin-right: 45px;text-align: center;line-height: 45px">
+                        <font color="black" size="3">寻物</font>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-1 col-md-offset-1">
+                <!--招领-->
+                <a href="zhaoling.html">
+                    <div style="height: 45px;width: 60px;float: left;margin-right: 45px;text-align: center;line-height: 45px">
+                        <font color="black" size="3">招领</font>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-1 col-md-offset-1">
+                <!--发布-->
+                <a href="issue.html">
+                    <div style="height: 45px;width:90px;float: left;margin-right: 45px;text-align: center;line-height: 45px">
+                        <font color="black" size="3">发布+</font>
+                        <img src="asserts/images/hot.gif" style="margin-top: -17px;width: 25px;">
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-1 col-md-offset-1">
+                <!-- 个人中心 -->
+                <div style="width: 40px;height: 45px;line-height: 45px">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <!--                <li>用户名</li>-->
+                            <div style="height: 30px;margin-top: -10px;">用户名:<span id="uName"></span></div>
+                            <li role="separator" class="divider"></li>
+                            <li id="ucen1" style="display: none"><a href="userpickup.html">失物招领管理</a></li>
+                            <li id="ucen2" style="display: none"><a href="userlost.html">失物启示管理</a></li>
+                            <li id="lgin"><a href="login.html">登录</a></li>
+                            <li ><a href="issue.html">发帖</a></li>
+                            <li id="lout" style="display: none"><a href="#" id="logout">注销</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+</header>
+

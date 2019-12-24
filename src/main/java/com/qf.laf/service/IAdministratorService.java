@@ -1,5 +1,6 @@
 package com.qf.laf.service;
 
+import com.qf.laf.entity.Administrator;
 import com.qf.laf.entity.Lost;
 import com.qf.laf.entity.Pickup;
 
@@ -18,4 +19,6 @@ public interface IAdministratorService {
     Boolean setPickupEffective(Integer pMsgId);
 
     List<Pickup> getNotVerityPickup();
+
+    Integer getAIdByAdministator(Administrator administrator);
 }

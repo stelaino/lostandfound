@@ -2,18 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户失物招领管理</title>
+    <title>用户|失物招领管理</title>
 
-    <link href="asserts/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="asserts/plugins/validator/bootstrapValidator.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
     <script src="asserts/plugins/jquery/jquery-3.4.1.min.js"></script>
-    <script src="asserts/plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="asserts/project/js/include.js"></script>
 
-    <script src="assets/plugins/jquery/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
         $(function () {
             var arr;
@@ -26,11 +19,11 @@
                 type: "POST",
                 success: function (msg) {
                     arr = msg;
-                    console.log(msg);
+                    // console.log(msg);
                     $("#tbody").empty();
                     for (var i = 0; i<msg.length; i++) {
                         var $trTemp = $("<tr></tr>");
-                        $trTemp.append("<td><input type='checkbox' MID=\"" + msg[i].pMsgId + "\"></td>");
+                        // $trTemp.append("<td><input type='checkbox' MID=\"" + msg[i].pMsgId + "\"></td>");
                         $trTemp.append("<td>" + msg[i].title + "</td>");
                         $trTemp.append("<td>" + msg[i].body + "</td>");
                         $trTemp.append("<td><img src=" + msg[i].pic1 + "  width='200px' height='200px'></td>");
@@ -63,7 +56,7 @@
 
                     $(".edit").click(function () {
                         arr_index = $(this).attr("num");
-                        console.log(arr_index);
+                        // console.log(arr_index);
                         $("#edit_pMsgId").attr("pMsgId",arr[arr_index].pMsgId);
                         $("#edit_title").val(arr[arr_index].title);
                         $("#edit_body").val(arr[arr_index].body);
@@ -104,7 +97,7 @@
                     dataType: "JSON",
                     type: "POST",
                     success: function (msg) {
-                        console.log(msg);
+                        // console.log(msg);
                         location.reload();
                     }
                 }
@@ -114,13 +107,15 @@
     </script>
 </head>
 <body>
-<div class="container">
+<div id="header"></div>
+<div class="container" style="color: white">
+    <div class="row" style="text-align: center"><br><h2 style="color: white">失物招领贴文管理</h2><br></div>
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered">
                 <thead class="">
                 <tr>
-                    <th><input type="checkbox" class="checkbox" id="select_all"></th>
+<!--                    <th><input type="checkbox" class="checkbox" id="select_all"></th>-->
                     <th class="col-md-2">标题</th>
                     <th>内容</th>
                     <th class="col-md-2 img-responsive center-block">图片</th>
@@ -248,5 +243,6 @@
         </div>
     </div>
 </div>
+<div id="footer"></div>
 </body>
 </html>

@@ -45,10 +45,10 @@
     </select>
 
     <select id="getPickupByLMsgId" resultMap="pickup_details">
-        select * from pickup where is_delete=1 and p_msg_id=#{pMsgId};
+        select * from pickup where is_delete=1 and p_msg_id=#{pMsgId} ;
     </select>
     <select id="getPickupListByUId" resultMap="pickup_details">
-        select * from pickup where is_delete=1 and u_id=#{uId};
+        select * from pickup where is_delete=1 and u_id=#{uId} GROUP BY modify_time desc;
     </select>
 
     <update id="deletePickupByPMsgId">

@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -24,17 +25,12 @@ public class LostController {
 
     @PostMapping("/addLostRow")
     @ResponseBody
-    public  Lost addLostRow(@RequestBody Lost lost) {
+    public  Lost addLostRow(@RequestBody Lost lost,HttpServletRequest request) {
+        Integer uId = (Integer) request.getSession().getAttribute("uId");
+        lost.setUId(uId);
         System.out.println(lost);
         lostService.addLostRow(lost);
         return lost;
-    }
-
-    @PostMapping("/addPickupRow")
-    @ResponseBody
-    public Pickup addPickupRow(@RequestBody Pickup pickup) {
-        System.out.println(pickup.toString());
-        return pickup;
     }
 
     @PostMapping("/uploadImg")
@@ -49,9 +45,10 @@ public class LostController {
     }
 
     @RequestMapping("/getLostListByUId")
-    public List<Lost> getLostListByUId(HttpServletRequest request) {
+    public List<Lost> getLostListByUId(HttpSession session) {
         //模拟登录id
-        Integer uId = (Integer) request.getSession().getAttribute("uId");
+        Integer uId = (Integer) session.getAttribute("uId");
+//        Integer uId = (Integer) request.getSession().getAttribute("uId");
         return lostService.getLostListByUId(uId);
     }
 
@@ -73,8 +70,8 @@ public class LostController {
     }
 
     @RequestMapping("/setUId")
-    public String setUId(HttpServletRequest request,@RequestParam("uid") Integer uid) {
-        request.getSession().setAttribute("uId",uid);
+    public String setUId(HttpSession session, @RequestParam("uid") Integer uid) {
+        session.setAttribute("uId",uid);
         return "设置成功";
     }
 

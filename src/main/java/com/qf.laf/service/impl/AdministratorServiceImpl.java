@@ -1,5 +1,6 @@
 package com.qf.laf.service.impl;
 
+import com.qf.laf.entity.Administrator;
 import com.qf.laf.entity.Lost;
 import com.qf.laf.entity.Pickup;
 import com.qf.laf.mapper.IAdministratorMapper;
@@ -29,6 +30,12 @@ public class AdministratorServiceImpl implements IAdministratorService {
     public List<Pickup> getNotVerityPickup() {
         return administratorMapper.getNotVerityPickup();
     }
+
+    @Override
+    public Integer getAIdByAdministator(Administrator administrator) {
+        return administratorMapper.getAIdByAdministator(administrator);
+    }
+
     @Override
     public Boolean setPickupEffective(Integer pMsgId) {
         if (administratorMapper.setPickupEffective(pMsgId) > 0) {

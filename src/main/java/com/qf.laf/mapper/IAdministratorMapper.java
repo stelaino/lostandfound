@@ -1,5 +1,6 @@
 package com.qf.laf.mapper;
 
+import com.qf.laf.entity.Administrator;
 import com.qf.laf.entity.Lost;
 import com.qf.laf.entity.Pickup;
 import org.apache.ibatis.annotations.Param;
@@ -15,4 +16,6 @@ public interface IAdministratorMapper {
     Integer setPickupEffective(@Param("pMsgId") Integer pMsgId);
 
     List<Pickup> getNotVerityPickup();
+
+    Integer getAIdByAdministator(@Param("admin")Administrator administrator);
 }

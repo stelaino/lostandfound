@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+
+    <script src="asserts/plugins/jquery/jquery-3.4.1.min.js"></script>
+    <script src="asserts/project/js/include.js"></script>
+    <link href="asserts/plugins/validator/bootstrapValidator.css" rel="stylesheet">
+    <script src="asserts/plugins/validator/bootstrapValidator.js"></script>
+    <script src="asserts/plugins/validator/zh_CN.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("button").click(function () {
+                console.log("被点击");
+                $("form").bootstrapValidator({
+                    message: "该项不能为空",
+                    feedbackIcons: {
+                        valid: "glyphicon glyphicon-ok",
+                        invalid: "glyphicon glyphicon-remove",
+                        validating: "glyphicon glyphicon-refresh"
+                    },
+                    fields:{}
+                }).on("success.form.bv",function (e) {
+                    e.preventDefault();
+                    var $form = $(e.target);
+                    var bv = $form.data('bootstrapValidator');
+                    params = $form.serializeArray();
+                    console.log("$form.serializeArray():"+params);
+                    var values = {};
+                    for (var item in params) {
+                        values[params[item].name] = params[item].value;
+                    }
+                    console.log("values:" + values);
+                    console.log("JSON.stringify(values)" + JSON.stringify(values));
+                    var settings = {
+                        data: JSON.stringify(values),
+                        type: "POST",
+                        contentType: "application/json;charset=UTF-8",
+                        dataType:"json",
+                        success: function (message) {
+                            location.href = message;
+                        },
+                        error:function (message) {
+                            console.log(message);
+                        }
+                    }
+                    $.ajax("http://localhost:8080/lostandfound/user/login", settings);
+                })
+            })
+        })
+    </script>
+
+    <style>
+        #form
+        {
+            background-color: #31b0d5;
+        }
+        .mycheckbox
+        {
+            margin-top: 10px;
+            margin-left: 40px;
+            margin-bottom: 10px;
+            height: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="header"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3"style="text-align: center;">
+            <div><br><br><br><br><br><br></div>
+            <form class="form-horizontal" id="form"  >
+                <div class="form-group">
+                    <h1>Login</h1>
+                </div>
+                <div class="form-group"style="margin-left:40px" >
+                    <label class="control-label col-md-3">用户名:</label>
+                    <div class="col-md-4 off">
+                        <!--                <input type="date" class="form-control" name="lTime" id="lTime" >-->
+                        <input type="text" class="form-control" placeholder="请输入用户名" name="uName">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:40px">
+                    <label class="control-label col-md-3">用户名:</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="请输入用户密码" name="uPassword"><br>
+                    </div>
+                </div>
+                <a href="#"  data-toggle='modal' data-target='#editModal'>Register</a>
+                <div class="form-group">
+                    <button type="submit" class="btn">登录</button>
+                    <br><br>
+                </div>
+            </form>
+        </div>
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">注册</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="editForm">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">UserName:</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="请填写" name="title" id="username">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Password:</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="请填写" name="title" id="password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Email:</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="请填写" name="emial" id="emial">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">VerityCode:</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="根据上面邮箱获取验证码" name="vcode" id="vcode">
+                                    <button>Code</button>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="saveData">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--    <div id="footer"></div>-->
+        </div>
+    </div>
+</div>
+<div id="footer"></div>
+</body>
+</html>
