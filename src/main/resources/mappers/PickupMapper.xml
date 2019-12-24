@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.laf.mapper.IPickupMapper">
+
+    <sql id="addTabSql" >
+        p_province, p_city, p_address, p_time, title, type, expiration, body, pic_1, pic_2, contact, p_phone, p_email, u_id,verify_status,created_time
+    </sql>
+    <sql id="addEntSql">
+        #{pickup.pProvince},#{pickup.pCity},#{pickup.pAddress},#{pickup.pTime},#{pickup.title},#{pickup.type},#{pickup.expiration},#{pickup.body},#{pickup.pic1},#{pickup.pic2},#{pickup.contact},#{pickup.pPhone},#{pickup.pEmail},#{pickup.uId},#{pickup.verifyStatus},now()
+    </sql>
+    <resultMap id="pickup_details" type="Pickup">
+        <id property="pMsgId" column="p_msg_id"/>
+        <result property="pProvince" column="p_province"/>
+        <result property="pCity" column="p_city"/>
+        <result property="pAddress" column="p_address"/>
+        <result property="pTime" column="p_time"/>
+        <result property="title" column="title"/>
+        <result property="type" column="type"/>
+        <result property="expiration" column="expiration"/>
+        <result property="body" column="body"/>
+        <result property="pic1" column="pic_1"/>
+        <result property="pic2" column="pic_2"/>
+        <result property="contact" column="contact"/>
+        <result property="pPhone" column="p_phone"/>
+        <result property="pEmail" column="p_email"/>
+        <result property="uId" column="u_id"/>
+        <result property="verifyStatus" column="verify_status"/>
+        <result property="createTime" column="created_time" javaType="java.util.Date"/>
+        <result property="modifyTime" column="modify_time" javaType="java.util.Date"/>
+    </resultMap>
+    <insert id="addPickupRow">
+        insert into pickup(
+        <include refid="addTabSql"></include>
+        ) values (
+        <include refid="addEntSql"></include>
+        );
+    </insert>
+    <!--    List<Pickup> getPickupListByUId(@Param("uId") Integer uId);-->
+    <!--    Integer deletePickupByLMsgId(@Param("pMsgId") Integer pMsgId);-->
+    <!--    Integer updatePickup(@Param("pickup") Pickup pickup);-->
+
+    <select id="checkPickupTitle" resultType="Integer">
+        select count(*) from pickup where is_delete=1 and title=#{title};
+    </select>
+
+    <select id="getPickupByLMsgId" resultMap="pickup_details">
+        select * from pickup where is_delete=1 and p_msg_id=#{pMsgId};
+    </select>
+    <select id="getPickupListByUId" resultMap="pickup_details">
+        select * from pickup where is_delete=1 and u_id=#{uId};
+    </select>
+
+    <update id="deletePickupByPMsgId">
+        update pickup set is_delete=0 where p_msg_id=#{pMsgId};
+    </update>
+
+    <update id="updatePickup">
+        update pickup set title=#{pickup.title},body=#{pickup.body} where p_msg_id=#{pickup.pMsgId}
+    </update>
+</mapper>

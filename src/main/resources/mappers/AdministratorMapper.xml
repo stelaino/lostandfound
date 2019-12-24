@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.laf.mapper.IAdministratorMapper">
+
+    <resultMap id="lost_details" type="Lost">
+        <id property="lMsgId" column="l_msg_id"/>
+        <result property="lProvince" column="l_province"/>
+        <result property="lCity" column="l_city"/>
+        <result property="lAddress" column="l_address"/>
+        <result property="lTime" column="l_time"/>
+        <result property="title" column="title"/>
+        <result property="type" column="type"/>
+        <result property="expiration" column="expiration"/>
+        <result property="body" column="body"/>
+        <result property="pic1" column="pic_1"/>
+        <result property="pic2" column="pic_2"/>
+        <result property="contact" column="contact"/>
+        <result property="lPhone" column="l_phone"/>
+        <result property="lEmail" column="l_email"/>
+        <result property="uId" column="u_id"/>
+        <result property="verifyStatus" column="verify_status"/>
+        <result property="createTime" column="created_time" javaType="java.util.Date"/>
+        <result property="modifyTime" column="modify_time" javaType="java.util.Date"/>
+    </resultMap>
+    <resultMap id="pickup_details" type="Pickup">
+        <id property="pMsgId" column="p_msg_id"/>
+        <result property="pProvince" column="p_province"/>
+        <result property="pCity" column="p_city"/>
+        <result property="pAddress" column="p_address"/>
+        <result property="pTime" column="p_time"/>
+        <result property="title" column="title"/>
+        <result property="type" column="type"/>
+        <result property="expiration" column="expiration"/>
+        <result property="body" column="body"/>
+        <result property="pic1" column="pic_1"/>
+        <result property="pic2" column="pic_2"/>
+        <result property="contact" column="contact"/>
+        <result property="pPhone" column="p_phone"/>
+        <result property="pEmail" column="p_email"/>
+        <result property="uId" column="u_id"/>
+        <result property="verifyStatus" column="verify_status"/>
+        <result property="createTime" column="created_time" javaType="java.util.Date"/>
+        <result property="modifyTime" column="modify_time" javaType="java.util.Date"/>
+    </resultMap>
+
+    <update id="setLostEffective">
+        update lost set verify_status=1 where l_msg_id=#{lMsgId};
+    </update>
+
+    <update id="setPickupEffective">
+        update pickup set verify_status=1 where p_msg_id=#{pMsgId};
+    </update>
+
+    <select id="getNotVerityLost" resultMap="lost_details">
+        select * from lost where is_delete=1 and verify_status=0;
+    </select>
+    <select id="getNotVerityPickup" resultMap="pickup_details">
+        select * from pickup where is_delete=1 and verify_status=0;
+    </select>
+</mapper>

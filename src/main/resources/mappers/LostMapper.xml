@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.laf.mapper.ILostMapper">
+    <sql id="addTabSql">
+        l_province, l_city, l_address, l_time, title, type, expiration, body, pic_1, pic_2, contact, l_phone, l_email, u_id,verify_status,created_time
+    </sql>
+    <sql id="addEntSql">
+        #{lost.lProvince},#{lost.lCity},#{lost.lAddress},#{lost.lTime},#{lost.title},#{lost.type},#{lost.expiration},#{lost.body},#{lost.pic1},#{lost.pic2},#{lost.contact},#{lost.lPhone},#{lost.lEmail},#{lost.uId},#{lost.verifyStatus},now()
+    </sql>
+    <resultMap id="lost_details" type="Lost">
+        <id property="lMsgId" column="l_msg_id"/>
+        <result property="lProvince" column="l_province"/>
+        <result property="lCity" column="l_city"/>
+        <result property="lAddress" column="l_address"/>
+        <result property="lTime" column="l_time"/>
+        <result property="title" column="title"/>
+        <result property="type" column="type"/>
+        <result property="expiration" column="expiration"/>
+        <result property="body" column="body"/>
+        <result property="pic1" column="pic_1"/>
+        <result property="pic2" column="pic_2"/>
+        <result property="contact" column="contact"/>
+        <result property="lPhone" column="l_phone"/>
+        <result property="lEmail" column="l_email"/>
+        <result property="uId" column="u_id"/>
+        <result property="verifyStatus" column="verify_status"/>
+        <result property="createTime" column="created_time" javaType="java.util.Date"/>
+        <result property="modifyTime" column="modify_time" javaType="java.util.Date"/>
+    </resultMap>
+
+    <insert id="addLostRow">
+        insert into lost(
+        <include refid="addTabSql"></include>
+        ) values (
+        <include refid="addEntSql"></include>
+        );
+    </insert>
+
+    <select id="checkLostTitle" resultType="Integer">
+        select count(*) from lost where is_delete=1 and title=#{title};
+    </select>
+
+    <select id="getLostByLMsgId" resultMap="lost_details">
+        select * from lost where is_delete=1 and l_msg_id=#{lMsgId};
+    </select>
+    <select id="getLostListByUId" resultMap="lost_details">
+        select * from lost where is_delete=1 and u_id=#{uId};
+    </select>
+
+    <update id="deleteLostByLMsgId">
+        update lost set is_delete=0 where l_msg_id=#{lMsgId};
+    </update>
+
+    <update id="updateLost">
+        update lost set title=#{lost.title},body=#{lost.body} where l_msg_id=#{lost.lMsgId}
+    </update>
+</mapper>

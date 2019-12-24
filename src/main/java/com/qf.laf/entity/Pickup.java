@@ -1,7 +1,10 @@
 package com.qf.laf.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class Pickup {
     private Integer pMsgId;
     private String pProvince;
@@ -11,7 +14,7 @@ public class Pickup {
     private String title;
     private String type;
     private Date expiration;
-    private String describe;
+    private String body;
     private String pic1;
     private String pic2;
     private String contact;

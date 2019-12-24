@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员|寻物启示审核</title>
+
+    <link href="asserts/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="asserts/plugins/validator/bootstrapValidator.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script src="asserts/plugins/jquery/jquery-3.4.1.min.js"></script>
+    <script src="asserts/plugins/bootstrap/js/bootstrap.js"></script>
+
+    <script src="assets/plugins/jquery/jquery-3.4.1.min.js"></script>
+    <script src="asserts/project/js/include.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var arr;
+            settings = {
+                data: {
+                    uId: 1
+                },
+                contentType: "html/text;charset=UTF-8",
+                dataType: "JSON",
+                type: "POST",
+                success: function (msg) {
+                    arr = msg;
+                    console.log(msg);
+                    $("#tbody").empty();
+                    for (var i =0; i<msg.length; i++) {
+                        var $trTemp = $("<tr></tr>");
+                        $trTemp.append("<td><input type='checkbox' MID=\"" + msg[i].lMsgId + "\"></td>");
+                        $trTemp.append("<td>" + msg[i].title + "</td>");
+                        $trTemp.append("<td>" + msg[i].body + "</td>");
+                        $trTemp.append("<td><img src=" + msg[i].pic1 + "  width='200px' height='200px'></td>");
+                        if (msg[i].verifyStatus == 1) {
+                            $trTemp.append("<td>审核通过</td>");
+                        } else {
+                            $trTemp.append("<td>审核中</td>");
+                        }
+                        $trTemp.append("<td>" + msg[i].modifyTime + "</td>");
+                        var $conTemp = $("<td></td>");
+                        $conTemp.append("<button class='btn-info cat' data-toggle='modal' data-target='#myModal' num='" + i + "'>查看</button>&nbsp;");
+                        $conTemp.append("<button class='btn-success edit' msgid='" + msg[i].lMsgId + "'>通过</button>&nbsp;");
+                        $conTemp.append("<button class='btn-danger delete' msgid='" + msg[i].lMsgId + "'>删除</button>");
+                        $trTemp.append($conTemp);
+                        $("#tbody").append($trTemp);
+                    }
+                    $(".cat").click(function () {
+                        arr_index = $(this).attr("num");
+                        $("#title").html(arr[arr_index].title)
+                        $("#body").html(arr[arr_index].body)
+                        $("#type").html(arr[arr_index].type)
+                        $("#lAddress").html(arr[arr_index].lProvince + arr[arr_index].lCity + arr[arr_index].lAddress)
+                        $("#lTime").html(arr[arr_index].lTime)
+                        $("#pic1").html(arr[arr_index].pic1)
+                        $("#pic2").html(arr[arr_index].pic2)
+                        $("#contact").html(arr[arr_index].contact)
+                        $("#lPhone").html(arr[arr_index].lPhone)
+                        $("#lEmail").html(arr[arr_index].lEmail)
+                    });
+
+                    $(".edit").click(function () {
+                        lMsgid = $(this).attr("msgid");
+                        censor_settings = {
+                            data: {
+                                lMsgId:lMsgid
+                            },
+                            dataType: "JSON",
+                            type: "POST",
+                            success: function (msg) {
+                                location.reload();
+                            }
+                        }
+                        $.ajax("/administrator/censorLost", censor_settings);
+                        // $.ajax("http://localhost:8080/lostandfound/administrator/censorLost", censor_settings);
+                    });
+
+                    $(".delete").click(function () {
+                        arr_mid = $(this).attr("msgid");
+                        var r = confirm("确定删除本条消息？");
+                        if (r == true) {
+                            delete_settings = {
+                                data: {
+                                    "lMsgId": arr_mid
+                                },
+                                dataType: "JSON",
+                                type: "POST",
+                                success: function (msg) {
+                                    location.reload();
+                                }
+                            }
+                            $.ajax("/lost/deleteLostByLMsgId", delete_settings);
+                            // $.ajax("http://localhost:8080/lostandfound/lost/deleteLostByLMsgId", delete_settings);
+                        }
+                    });
+                }
+            }
+            $.ajax("/administrator/getNotVerityLost", settings);
+            // $.ajax("http://localhost:8080/lostandfound/administrator/getNotVerityLost", settings);
+
+            //当编辑模态框点击保存时将通过ajax将数据发送到后台
+            $("#saveData").click(function () {
+                data = {
+                    lMsgId: $("#edit_lMsgId").attr("lmsgId"),
+                    title: $("#edit_title").val(),
+                    body: $("#edit_body").val()
+                }
+                save_settings = {
+                    data: JSON.stringify(data),
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "JSON",
+                    type: "POST",
+                    success: function (msg) {
+                        console.log(msg);
+                        location.reload();
+                    }
+                }
+                $.ajax("/lost/updateLost", save_settings);
+                // $.ajax("http://localhost:8080/lostandfound/lost/updateLost", save_settings);
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <a href="adminPickupMsgVerity.html">管理员失物招领审核页</a>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover">
+                <thead class="">
+                <tr>
+                    <th><input type="checkbox" class="checkbox" id="select_all"></th>
+                    <th class="col-md-2">标题</th>
+                    <th>内容</th>
+                    <th class="col-md-2 img-responsive center-block">图片</th>
+                    <th class="col-md-1">审核状态</th>
+                    <th class="col-md-2">最后修改时间</th>
+                    <th class="col-md-2">操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">数据详情</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="form">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">贴文标题:</label>
+                        <div class="col-md-8">
+                            <span class="span" name="title" id="title"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">详情描述:</label>
+                        <div class="col-md-8">
+                            <span class="span" name="body" id="body"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">失物类别:</label>
+                        <div class="col-md-8">
+                            <span class="span" name="type" id="type"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">失物地址:</label>
+                        <div class="col-md-8">
+                            <span class="span" name="lAddress" id="lAddress"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">丢失时间:</label>
+                        <div class="col-md-8">
+                            <span class="span" name="lTime" id="lTime"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">物品图片地址1:</label>
+                        <div class="col-md-8">
+                            <span class="span" name="pic1" id="pic1"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">物品图片地址2:</label>
+                        <div class="col-md-8">
+                            <span class="span" name="pic2" id="pic2"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">联系人:</label>
+                        <div class="col-md-8">
+                            <span class="span" name="contact" id="contact"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">联系电话:</label>
+                        <div class="col-md-8">
+                            <span class="span" name="lPhone" id="lPhone"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">电子邮箱:</label>
+                        <div class="col-md-8">
+                            <span class="span" name="lEmail" id="lEmail"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer"></div>
+</body>
+</html>
