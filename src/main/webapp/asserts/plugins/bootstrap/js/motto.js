@@ -1,9 +1,4 @@
-var dictaColor='white';
-function dowritedicta(num){var randid=Math.round(Math.random()*num);
-randid=randid>=num?num-1:randid;
-document.write(
-    '<font color="'+dictaColor+'">'+'Tips:'+dictumin[randid]+'</font>');}
-var dictumin=new Array(' 感谢是爱心的第一步 --西谚 ',
+var dictumin = new Array(' 感谢是爱心的第一步 --西谚 ',
     ' 爱是美德的种子。----但丁 ',
     ' 爱是理解的别名。---泰戈尔 ',
     ' 我们的爱是温暖的，但是爱也是要传递的！我们的爱我们共享！ ',
@@ -128,4 +123,11 @@ var dictumin=new Array(' 感谢是爱心的第一步 --西谚 ',
     ' 霸祖孤身取二江，子孙多以百城降。豪华尽出成功后，逸乐安知与祸双？',
     ' 阴谋陷害别人的人，自己会首先遭到不幸。',
     ' 奢则妄取苟取，志气卑辱；一从俭约，则于人无求，于己无愧，是可以养气也。',
-    ' 侈则多欲。君子多欲则念慕富贵，枉道速祸。');dowritedicta(dictumin.length);
+    ' 侈则多欲。君子多欲则念慕富贵，枉道速祸。');
+
+function getDictumin() {
+    var num = dictumin.length;
+    var randid = Math.round(Math.random() * num);
+    randid = randid >= num ? num - 1 : randid;
+    return dictumin[randid];
+}

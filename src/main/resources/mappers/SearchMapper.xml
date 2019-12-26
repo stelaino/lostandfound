@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.laf.mapper.ISearchMapper">
+
+    <!-- 失物 -->
+    <resultMap id="provinceMap" type="Lost">
+        <id property="lMsgId" column="l_msg_id"/>
+        <result property="lProvince" column="l_province"/>
+        <result property="lCity" column="l_city"/>
+        <result property="lAddress" column="l_address"/>
+        <result property="lTime" column="l_time"/>
+        <result property="title" column="title"/>
+        <result property="type" column="type"/>
+        <result property="expiration" column="expiration"/>
+        <result property="body" column="body"/>
+        <result property="pic1" column="pic_1"/>
+        <result property="pic2" column="pic_2"/>
+        <result property="contact" column="contact"/>
+        <result property="lPhone" column="l_phone"/>
+        <result property="lEmail" column="l_email"/>
+        <result property="uId" column="u_id"/>
+        <result property="verifyStatus" column="verify_status"/>
+        <result property="createTime" column="created_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <!-- 招领 -->
+    <resultMap id="pickupMapper" type="Pickup">
+        <id property="pMsgId" column="p_msg_id"/>
+        <result property="pProvince" column="p_province"/>
+        <result property="pCity" column="p_city"/>
+        <result property="pAddress" column="p_address"/>
+        <result property="pTime" column="p_time"/>
+        <result property="title" column="title"/>
+        <result property="type" column="type"/>
+        <result property="expiration" column="expiration"/>
+        <result property="body" column="body"/>
+        <result property="pic1" column="pic_1"/>
+        <result property="pic2" column="pic_2"/>
+        <result property="contact" column="contact"/>
+        <result property="pPhone" column="p_phone"/>
+        <result property="pEmail" column="p_email"/>
+        <result property="uId" column="u_id"/>
+        <result property="verifyStatus" column="verify_status"/>
+        <result property="createTime" column="created_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <!-- 通过内容（关键字）获取全国失物信息总条数 -->
+    <select id="getLostCountByContext" resultType="Integer">
+        select count(*) from lost where is_delete = 1 and verify_status = 1 and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过内容（关键字）获取全国失物信息 -->
+    <select id="getLostListByContext" resultMap="provinceMap">
+        select * from lost where is_delete = 1 and verify_status = 1 and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+
+    <!-- 通过省份和关键字查询失物信息总条数 -->
+    <select id="getLostCountByContextAndProvince" resultType="Integer">
+        select count(*) from lost where l_province = #{province} and is_delete = 1 and verify_status = 1 and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过省份和关键字查询失物信息 -->
+    <select id="getLostListByContextAndProvince" resultMap="provinceMap">
+        select * from lost where is_delete = 1 and verify_status = 1 and l_province = #{province} and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+
+    <!--          —————————————招领—————————————————            -->
+
+    <!-- 通过内容（关键字）获取全国招领信息总条数 -->
+    <select id="getPickupCountByContext" resultType="Integer">
+        select count(*) from pickup where is_delete = 1 and verify_status = 1 and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过内容（关键字）获取全国招领信息 -->
+    <select id="getPickupListByContext" resultMap="pickupMapper">
+        select * from pickup where is_delete = 1 and verify_status = 1 and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+
+    <!-- 通过省份和关键字查询招领信息总条数 -->
+    <select id="getPickupCountByContextAndProvince" resultType="Integer">
+        select count(*) from pickup where p_province = #{province} and is_delete = 1 and verify_status = 1 and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过省份和关键字查询招领信息 -->
+    <select id="getPickupListByContextAndProvince" resultMap="pickupMapper">
+        select * from pickup where is_delete = 1 and verify_status = 1 and p_province = #{province} and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+
+    <!--          —————————————寻物招领页进行省份和类型筛选—————————————————            -->
+
+    <!-- 通过类型获取全国失物信息总条数 -->
+    <select id="getLostCountByType" resultType="Integer">
+        select count(*) from lost where is_delete = 1 and verify_status = 1 and type = #{type};
+    </select>
+
+    <!-- 通过类型获取全国失物信息 -->
+    <select id="getLostListByType" resultMap="provinceMap">
+        select * from lost where is_delete = 1 and verify_status = 1 and type = #{type} order by created_time desc limit #{offset},#{num};
+    </select>
+
+    <!-- 通过省份和类型查询失物信息总条数 -->
+    <select id="getLostCountByTypeAndProvince" resultType="Integer">
+        select count(*) from lost where l_province = #{province} and is_delete = 1 and verify_status = 1 and type = #{type};
+    </select>
+
+    <!-- 通过省份和类型查询失物信息 -->
+    <select id="getLostListByTypeAndProvince" resultMap="provinceMap">
+        select * from lost where is_delete = 1 and verify_status = 1 and l_province = #{province} and type = #{type} order by created_time desc limit #{offset},#{num};
+    </select>
+
+
+    <!-- 通过类型获取全国招领信息总条数 -->
+    <select id="getPickupCountByType" resultType="Integer">
+        select count(*) from pickup where is_delete = 1 and verify_status = 1 and type = #{type};
+    </select>
+
+    <!-- 通过类型获取全国招领信息 -->
+    <select id="getPickupListByType" resultMap="pickupMapper">
+        select * from pickup where is_delete = 1 and verify_status = 1 and type = #{type} order by created_time desc limit #{offset},#{num};
+    </select>
+
+    <!-- 通过省份和类型查询招领信息总条数 -->
+    <select id="getPickupCountByTypeAndProvince" resultType="Integer">
+        select count(*) from pickup where p_province = #{province} and is_delete = 1 and verify_status = 1 and type = #{type};
+    </select>
+
+    <!-- 通过省份和类型查询招领信息 -->
+    <select id="getPickupListByTypeAndProvince" resultMap="pickupMapper">
+        select * from pickup where is_delete = 1 and verify_status = 1 and p_province = #{province} and type = #{type} order by created_time desc limit #{offset},#{num};
+    </select>
+
+
+    <!--          —————————————寻物招领页进行市和类型筛选—————————————————            -->
+
+    <!-- 通过市和类型查询失物信息总条数 -->
+    <select id="getLostCountByTypeAndCity" resultType="Integer">
+        select count(*) from lost where l_city = #{city} and is_delete = 1 and verify_status = 1 and type = #{type};
+    </select>
+
+    <!-- 通过市和类型查询失物信息 -->
+    <select id="getLostListByTypeAndCity" resultMap="provinceMap">
+        select * from lost where is_delete = 1 and verify_status = 1 and l_city = #{city} and type = #{type} order by created_time desc limit #{offset},#{num};
+    </select>
+
+    <!-- 通过市和类型查询招领信息总条数 -->
+    <select id="getPickupCountByTypeAndCity" resultType="Integer">
+        select count(*) from pickup where p_city = #{city} and is_delete = 1 and verify_status = 1 and type = #{type};
+    </select>
+
+    <!-- 通过市和类型查询招领信息 -->
+    <select id="getPickupListByTypeAndCity" resultMap="pickupMapper">
+        select * from pickup where is_delete = 1 and verify_status = 1 and p_city = #{city} and type = #{type} order by created_time desc limit #{offset},#{num};
+    </select>
+
+
+    <!--          —————————————寻物页和招领页通过省份，类型，关键字进行搜索—————————————————            -->
+
+    <!-- 通过类型和关键字获取全国失物信息总条数 -->
+    <select id="getLostCountByTypeAndContext" resultType="Integer">
+        select count(*) from lost where is_delete = 1 and verify_status = 1 and type = #{type} and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过类型和关键字获取全国失物信息 -->
+    <select id="getLostListByTypeAndContext" resultMap="provinceMap">
+        select * from lost where is_delete = 1 and verify_status = 1 and type = #{type} and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+
+    <!-- 通过省份和类型和关键字查询失物信息总条数 -->
+    <select id="getLostCountByTypeAndProvinceAndContext" resultType="Integer">
+        select count(*) from lost where l_province = #{province} and is_delete = 1 and verify_status = 1 and type = #{type} and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过省份和类型和关键字查询失物信息 -->
+    <select id="getLostListByTypeAndProvinceAndContext" resultMap="provinceMap">
+        select * from lost where is_delete = 1 and verify_status = 1 and l_province = #{province} and type = #{type} and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+
+
+    <!-- 通过类型和关键字获取全国招领信息总条数 -->
+    <select id="getPickupCountByTypeAndContext" resultType="Integer">
+        select count(*) from pickup where is_delete = 1 and verify_status = 1 and type = #{type} and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过类型和关键字获取全国招领信息 -->
+    <select id="getPickupListByTypeAndContext" resultMap="pickupMapper">
+        select * from pickup where is_delete = 1 and verify_status = 1 and type = #{type} and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+
+    <!-- 通过省份和类型和关键字查询招领信息总条数 -->
+    <select id="getPickupCountByTypeAndProvinceAndContext" resultType="Integer">
+        select count(*) from pickup where p_province = #{province} and is_delete = 1 and verify_status = 1 and type = #{type} and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过省份和类型和关键字查询招领信息 -->
+    <select id="getPickupListByTypeAndProvinceAndContext" resultMap="pickupMapper">
+        select * from pickup where is_delete = 1 and verify_status = 1 and p_province = #{province} and type = #{type} and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+
+
+    <!--          —————————————失物和招领页面快速筛选框进行关键字搜索（选择了市没有选择类型（传递市，关键字和当前页））—————————————————            -->
+
+    <!-- 通过市和关键字查询失物信息总条数 -->
+    <select id="getLostCountByContextAndCity" resultType="Integer">
+        select count(*) from lost where l_city = #{city} and is_delete = 1 and verify_status = 1 and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过市和关键字查询失物信息 -->
+    <select id="getLostListByContextAndCity" resultMap="provinceMap">
+        select * from lost where is_delete = 1 and verify_status = 1 and l_city = #{city} and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+
+    <!-- 通过市和关键字查询招领信息总条数 -->
+    <select id="getPickupCountByContextAndCity" resultType="Integer">
+        select count(*) from pickup where p_city = #{city} and is_delete = 1 and verify_status = 1 and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过市和关键字查询招领信息 -->
+    <select id="getPickupListByContextAndCity" resultMap="pickupMapper">
+        select * from pickup where is_delete = 1 and verify_status = 1 and p_city = #{city} and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+
+
+    <!--          —————————————寻物页和招领页通过市，类型，关键字进行搜索—————————————————            -->
+
+    <!-- 通过市和类型和关键字查询失物信息总条数 -->
+    <select id="getLostCountByTypeAndCityAndContext" resultType="Integer">
+        select count(*) from lost where l_city = #{city} and is_delete = 1 and verify_status = 1 and type = #{type} and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过市和类型和关键字查询失物信息 -->
+    <select id="getLostListByTypeAndCityAndContext" resultMap="provinceMap">
+        select * from lost where is_delete = 1 and verify_status = 1 and l_city = #{city} and type = #{type} and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+
+    <!-- 通过市和类型和关键字查询招领信息总条数 -->
+    <select id="getPickupCountByTypeAndCityAndContext" resultType="Integer">
+        select count(*) from pickup where p_city = #{city} and is_delete = 1 and verify_status = 1 and type = #{type} and body like "%"#{context}"%";
+    </select>
+
+    <!-- 通过市和类型和关键字查询招领信息 -->
+    <select id="getPickupListByTypeAndCityAndContext" resultMap="pickupMapper">
+        select * from pickup where is_delete = 1 and verify_status = 1 and p_city = #{city} and type = #{type} and body like "%"#{context}"%" order by created_time desc limit #{offset},#{num};
+    </select>
+</mapper>
