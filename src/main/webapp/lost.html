@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="asserts/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="asserts/plugins/validator/bootstrapValidator.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script src="asserts/plugins/jquery/jquery-3.4.1.min.js"></script>
+    <script src="asserts/plugins/bootstrap/js/bootstrap.js"></script>
+
+    <!-- 自定义分页js -->
+    <script src="asserts/plugins/bootstrap/js/headPaging.js"></script>
+
+    <!--    格言js-->
+    <script src="asserts/project/js/include.js"></script>
+    <script src="asserts/plugins/bootstrap/js/motto.js"></script>
+
+    <!-- 自定义样式 -->
+
+
+    <script type="text/javascript">
+        var msg;
+        //获取系统当前时间
+        var now = now;
+        $(function () {
+            function getNow(s) {
+                return s < 10 ? '0' + s : s;
+            }
+
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var h = myDate.getHours();
+            var m = myDate.getMinutes();
+            var s = myDate.getSeconds();
+            now = year + '-' + getNow(month) + "-" + getNow(date) + " " + getNow(h) + ':' + getNow(m) + ":" + getNow(s);
+        });
+        //根据id获取当前用户信息
+        $(function () {
+            var data = {
+                method: "getLost",
+                id: 6
+            };
+            var settings = {
+                data: data,
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+                    msg = data;
+                    $("#title").append(data.title);
+                    $("#describe").append("<p>" + data.body + "<p/>");
+                    $("#type").append(data.type);
+                    $("#day").append(data.lTime);
+                    $("#site").append(data.lProvince + ">" + data.lCity + ">" + data.lAddress);
+                    var phone = data.lPhone.replace(/(\d{3})(\d{4})(\d{4})/, "$1****$3");
+                    $("#linkman").append(data.contact);
+                    $("#phone").html(phone);
+                    // var lphone = data.lPhone.replace(3,8,"****");
+                    // alert(lphone);
+                    $("#email").append(data.lEmail);
+                    $("#region").append(data.lProvince);
+                    $("#img1").attr("src", data.pic1);
+                    $("#img").attr("src", data.pic2);
+                    $("#creatime").append(data.createTime);
+                    $("#messnum").append(data.lMsgId);
+                    if (data.pic1 && data.pic2 == null) {
+                        $("#img1").attr("src", "aserts/images/1000273.jpg");
+                        $("#img2").attr("src", "aserts/images/1000273.jpg")
+                    }
+
+
+                }
+            };
+            $.ajax("lost/getLost", settings);
+        });
+
+        //举报信息保存到后台
+        $(function () {
+            var f = false;
+            $("#report").click(function () {
+                if (f == false) {
+                    $("#inblock").css("display", "block");
+                    f = true;
+                } else {
+                    $("#inblock").css("display", "none")
+                    f = false;
+                }
+                $("#submitter").click(function () {
+                    var array = new Array();
+                    var reportData = '';
+                    var i = 0;
+                    var flag = true;
+                    $(".report").each(function () {
+                        if ($(this).is(":checked")) {
+                            array[i] = $(this).val();
+                            reportData = array.join("-");
+                            i++;
+                        } else {
+                            // flag=false;
+                            // alert("举报内容最少选择一项");
+                            return;
+                        }
+                    });
+                    if (i > 0) {
+                        var data = {
+                            msgId: msg.lMsgId,
+                            uId: msg.uId,
+                            reportData: reportData,
+                            type: "寻物"
+                        };
+                        var settings = {
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            datatype: 'JSON',
+                            contentType: 'application/json',
+
+                            success: function (data) {
+                                if (data == 1) {
+                                    $(".report").prop("checked", false);
+                                    alert("举报成功")
+                                }
+                            }
+                        }
+                        $.ajax("reportController/addReport", settings)
+                    } else {
+                        alert("举报内容最少选择一项");
+                    }
+                })
+            })
+        });
+        //地区隐藏事件
+        $(function () {
+            $("#selectProvince").hover(function () {
+                $("#hiddenCity").css("display", "block");
+            }, function () {
+                $("#hiddenCity").css("display", "none");
+            });
+            $("#hiddenCity").hover(function () {
+                $("#hiddenCity").css("display", "block");
+            }, function () {
+                $("#hiddenCity").css("display", "none");
+            });
+
+        })
+        //线索提供ajax
+        $(function () {
+            $("#sumbit").click(function () {
+                var body = $("#thread").val();
+                if (body.length == 0 && body == '') {
+                    alert("文本框内无内容,请输入");
+                    return false;
+                } else {
+                    var data = {
+                        body: body,
+                        eAddress: msg.lEmail,
+                        genre: "寻物"
+                    };
+                    var settings = {
+                        datatype: 'JSON',
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (data) {
+                            if (data == 1) {
+                                $("#thread").val("")
+                                alert("感谢你的帮助！")
+                            }
+                        }
+                    };
+                }
+
+                $.ajax("EmailController/addEmail", settings)
+            })
+        });
+        //获取完整电话号码
+        $(function () {
+            $("#hiddenPhone").click(function () {
+                $("#phone").html(msg.lPhone);
+            })
+        })
+    </script>
+
+
+    <style type="text/css">
+        #hiddenCity {
+            display: none;
+        }
+    </style>
+
+</head>
+<body style="width: 100%">
+<div id="header"></div>
+<div class="container">
+    <div class="row">
+        <h1><br></h1>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="caption">
+                <div class="thumbnail">
+                    <div>
+                        <div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <h2 class="text-center" id="title"></h2>
+                                </div>
+                                <div class="row">
+                                    <b style="color: lightgrey;font-family: 'Microsoft JhengHei'" id="creatime">发布时间</b>
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    <b style="color: lightgrey;font-family: 'Microsoft JhengHei UI'"
+                                       id="messnum">信息编号:</b>
+                                </div>
+                                <div style="margin-top: 20px">
+                                    <ul style="font-size: 15px;font-family: 'Source Code Pro'" class="lead"
+                                        id="describe"></ul>
+                                    <br/>
+                                </div>
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="thumbnail">
+                                        <img src="asserts/images/1000273.jpg" style="height: 400px;" id="img1">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="thumbnail">
+                                        <img src="asserts/images/1000273.jpg" style="height: 400px;" id="img">
+                                    </div>
+                                </div><br><br><br>
+                                <p>
+                                    <b style="color: red">诚信，从你我做起！</b>
+                                    联系我时，请说是在丢哪了(diunal.com)-失物招领平台看到的，谢谢！本站不欢迎利用本站发布的信息来诱骗失主，请给自己留一点自尊，也请给这个社会多一份爱心。
+                                </p>
+
+                                <button class="btn btn-default btn-group" id="report">举报</button>
+                                <div style="display: none" id="inblock">
+                                    <input type="checkbox" style="" class="report" id="report1" value="涉嫌欺诈">涉嫌欺诈
+                                    <input type="checkbox" style=""  class="report" id="report2" value="色情" >色情
+                                    <input type="checkbox" style=""  class="report" id="report3" value="与事实不符">与事实不符
+                                    <input type="checkbox" style="" class="report"  id="report4" value="用户信用差">用户信用差
+                                    <input type="submit"  id="submitter" value="提交">
+                                </div>
+
+                                <ul class="nav nav-tabs ">
+                                    <li role="presentation"><a href="#">联系方式</a></li>
+                                </ul>
+
+                                <div class="list-group">
+                                    <span id="type"> <strong> 失物类别:</strong></span><br/>
+                                    <span id="day">  <strong> 丢失日期:</strong></span><br/>
+                                    <span id="site"> <strong>丢失地点:</strong></span><br/>
+                                    <span id="linkman"><strong>联系人：</strong></span><br/>
+                                    <span><strong>电话：</strong><span id="phone"></span></span>
+                                    <input type="button" id="hiddenPhone" class="btn-success" value="获取完整电话号码"><br/>
+                                    <span id="email"><strong>邮箱：</strong></span><br/>
+                                    <span id="region"><strong>发布者所在地区(仅供参考):</strong></span>
+                                </div>
+
+                                <p class="container">
+                                <h2 style="color: black">我要提供线索</h2>
+                                </p>
+                                <p style="color: deeppink">小丢君Tips:</p>
+                                <p>如有相关线索，请在下方留言，谢谢。
+                                    留言后邮件通知信息发布人。
+                                    诚信，从你我做起！本站不欢迎利用本站发布的信息来诱骗失主，请给这个社会多一份爱心。</p>
+
+                                <input type="text" style="height: 100px;width: 80%" id="thread">
+                                <P>
+                                    <button type="button" id="sumbit">提交</button>
+                                    <b class="text-warning container-fluid">(注意：仅限300字，文明从尊重他人开始！)</b></P>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer"></div>
+</body>
+</html>

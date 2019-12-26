@@ -16,4 +16,6 @@ public interface IPickupService {
     Boolean deletePickupByPMsgId(Integer pMsgId);
 
     Boolean updatePickup(Pickup pickup);
+
+    Pickup  findPickupById(int id);
 }

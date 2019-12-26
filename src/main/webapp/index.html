@@ -2,22 +2,372 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>测试首页</title>
+    <title>Title</title>
 
+    <link href="asserts/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="asserts/plugins/validator/bootstrapValidator.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
     <script src="asserts/plugins/jquery/jquery-3.4.1.min.js"></script>
-    <script src="asserts/project/js/include.js"></script>
+    <script src="asserts/plugins/bootstrap/js/bootstrap.js"></script>
+
+    <!-- 自定义分页js -->
+    <script src="asserts/plugins/bootstrap/js/headPaging.js"></script>
+
+    <!--    格言js-->
+    <script src="asserts/plugins/bootstrap/js/motto.js"></script>
+
+    <!-- 自定义样式 -->
+    <style type="text/css">
+        body{
+            background: url("asserts/images/searchbeijing.jpg");
+            overflow-x: hidden;
+        }
+        #hiddenCity{
+            display: none;
+        }
+        .content{
+            transition-duration: 1s;
+        }
+        .content:hover{
+            box-shadow: yellow 10px 10px 10px;
+        }
+    </style>
+
+    <!--自定义JS-->
     <script type="text/javascript">
         $(function () {
-            $("#btn").click(function () {
-                console.log("JQuery测试成功");
-            })
+            $("#selectProvince").hover(function () {
+                $("#hiddenCity").css("display","block");
+            },function () {
+                $("#hiddenCity").css("display","none");
+            });
+            $("#hiddenCity").hover(function () {
+                $("#hiddenCity").css("display","block");
+            },function () {
+                $("#hiddenCity").css("display","none");
+            });
+
         })
     </script>
+
 </head>
-<body>
-<h1>这是一条测试页面的数据</h1>
-<button type="button" id="btn">测试JQuery按钮</button>
-<button class="btn-danger">测试bootstrap按钮</button>
+<body style="width: 100%">
+<!--<body style="width: 1536px">-->
+<!-- 头部 -->
+<div class="container-fluid" style="height: 28px;background-color: #8c8c8c;line-height: 28px">
+    <div style="float: left">
+        <span id="tips" style="color: white"></span>
+<!--        <script type="text/javascript" src="asserts/plugins/bootstrap/js/dicta.js"></script>-->
+    </div>
+    <div style="float: right;width: 80px;">
+        <a href="aboutUs.html"><font color="white">关于我们</font></a>
+    </div>
+    <div style="float: right;width: 80px;">
+        <a href="sponsor.html"><font color="white">赞助我们</font></a>
+    </div>
+</div>
+
+<!-- 导航栏 -->
+<div class="container-fluid" style="height: 60px;background-color: #fcf8e3;line-height: 60px">
+    <div style="width: 950px; height: 60px;margin: 0 auto;">
+        <!--图片-->
+        <div style="height: 60px;width: 50px;float: left;">
+            <a href="headPage.html">
+                <img src="asserts/images/swzl1.jpg" style="width: 150px;height: 90px;border-radius: 15px;">
+            </a>
+        </div>
+
+        <!-- 全国（选择其他省份后改为选择省份） -->
+        <div style="height: 60px;width: 60px;float: left;margin-right: 45px;text-align: center;margin-left: 150px;cursor: pointer" id="selectProvince">
+            <font color="black" size="3" id="select">全国</font>
+            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" style="color: black;"></span>
+        </div>
+
+
+        <!--寻物-->
+        <a href="xunwu.html">
+            <div style="height: 60px;width: 60px;float: left;margin-right: 45px;text-align: center">
+                <font color="black" size="3">寻物</font>
+            </div>
+        </a>
+
+        <!--招领-->
+        <a href="zhaoling.html">
+            <div style="height: 60px;width: 60px;float: left;margin-right: 45px;text-align: center">
+                <font color="black" size="3">招领</font>
+            </div>
+        </a>
+
+        <!--搜索-->
+        <a href="search.html">
+            <div style="height: 60px;width: 70px;float: left;margin-right: 45px;text-align: center">
+                <font color="black" size="3">搜索</font>
+                <img src="asserts/images/hot.gif" style="margin-top: -17px;width: 25px;">
+            </div>
+        </a>
+
+        <!--发布-->
+        <div style="float: left;height:60px;width: 100px;display: flex;align-items: center;">
+            <a href="issue.html">
+                <div style="height: 40px;width: 60px;border: solid 2px red;margin: 0 auto;text-align: center;display: flex;align-items: center;background-color: red;">
+                    <div style="margin-left: 10px"><font color="white">发布+</font></div>
+                </div>
+            </a>
+        </div>
+
+        <!--搜索框-->
+        <div class="input-group"  style="width:200px;margin-top: 3px;">
+            <input type="text" class="form-control" placeholder="请输入相关信息" style="margin-top:13px " id="information"/>
+            <span class="input-group-btn" id="searchContext">
+               <button type="button" class="btn btn-info btn-search glyphicon glyphicon-search" style="margin-top: -1px;"></button>
+            </span>
+        </div>
+
+        <!--城市隐藏-->
+        <div id="hiddenCity" style="width: 380px;float: left;height: 200px;position: absolute;margin-left: 200px;background-color: rgba(255,255,255,0.8)">
+            <ul style="list-style-type: none;padding: 25px" id="selectPro">
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">全国</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">北京</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">上海</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">天津</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">重庆</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">河北</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">河南</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">湖北</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">湖南</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">江苏</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">江西</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">辽宁</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">吉林</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">黑龙江</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">陕西</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">山东</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">山西</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">四川</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">青海</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">安徽</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">海南</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">广东</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">贵州</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">浙江</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">福建</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">甘肃</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">云南</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">宁夏</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">广西</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">新疆</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">西藏</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">内蒙古</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">香港</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">澳门</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">台湾</font></li>
+                <li style="float:left;width:50px;height:23px;line-height:23px"><font color="black" style="cursor: pointer">其他</font></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 个人中心 -->
+    <div style="width: 40px;height: 40px;float: right;margin-top: -60px;margin-right: 100px;">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <div style="height: 30px;margin-top: -10px;">用户名:<span id="uName"></span></div>
+                <li role="separator" class="divider"></li>
+                <li id="ucen1" style="display: none"><a href="userpickup.html">失物招领管理</a></li>
+                <li id="ucen2" style="display: none"><a href="userlost.html">失物启示管理</a></li>
+                <li id="lgin"><a href="login.html">登录</a></li>
+                <li ><a href="issue.html">发帖</a></li>
+                <li id="lout" style="display: none"><a href="#" id="logout">注销</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 固定广告位 -->
+<div style="width: 240px;height: 400px;position: fixed;left: 20px;top:150px;background: rgba(252,248,227,0.8)">
+    <div id="carousel-example-generic1" class="carousel slide" data-ride="carousel" style="width: 240px;">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic1" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic1" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic1" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox" style="width: 240px">
+            <div class="item active">
+                <img src="asserts/images/qfjy1.jpg" alt="千锋教育1" style="width: 240px;height: 200px;">
+            </div>
+            <div class="item">
+                <img src="asserts/images/qfjy3.jpg" alt="千锋教育2" style="width: 240px;height: 200px;">
+            </div>
+            <div class="item">
+                <img src="asserts/images/qfjy2.jpg" alt="千锋教育3" style="width: 240px;height: 200px;">
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic1" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic1" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <!-- 广告内容 -->
+    <div style="overflow: hidden;height: 200px;width: 240px;">
+        <div style="line-height: 20px;margin-top: 5px;text-indent:2em;padding-left:10px;padding-right: 10px;padding-top: 10px;">
+            <a href="http://www.mobiletrain.org/?pinzhuanbdtg=biaoti">千锋教育</a>:坚持面授品质，坚持良心教育，做有情怀有品质的IT职业教育机构，师资力量雄厚。感谢千锋教育对本网站的大力支持，感谢江先森对我们的技术指导。
+        </div>
+        <div style="line-height: 20px;margin-top: 5px;text-indent:2em;padding-left:10px;padding-right: 10px;">
+            报名联系人：胡纯霞
+        </div>
+        <div style="line-height: 20px;margin-top: 5px;text-indent:2em;padding-left:10px;padding-right: 10px;">
+            联系人电话：10086
+        </div>
+        <div style="line-height: 20px;margin-top: 5px;text-indent:2em;padding-left:10px;padding-right: 10px;">
+            占座加微：10086
+        </div>
+    </div>
+
+</div>
+
+<!-- 轮播图以及公告栏 -->
+<div style="width: 950px;height: 300px;margin: 0 auto;margin-top: 40px;position: relative;z-index: -1;">
+    <!-- 轮播图 -->
+
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="width: 600px;float: left;">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox" style="width: 600px">
+                <div class="item active">
+                    <img src="asserts/images/lbt1.jpg" alt="轮播图1" style="width: 600px;height: 300px;">
+                </div>
+                <div class="item">
+                    <img src="asserts/images/lbt2.jpg" alt="轮播图2" style="width: 600px;height: 300px;">
+                </div>
+                <div class="item">
+                    <img src="asserts/images/lbt3.jpg" alt="轮播图3" style="width: 600px;height: 300px;">
+                </div>
+                <div class="item">
+                    <img src="asserts/images/lbt4.jpg" alt="轮播图4" style="width: 600px;height: 300px;">
+                </div>
+            </div>
+        </div>
+
+
+    <!--公告-->
+    <div style="width: 342px;height: 300px;float: left;background-color: #fcf8e3;margin-left: 8px;">
+        <!--<h2 style="text-align: center;color: red;">公告</h2>-->
+        <div style="margin: 0 auto;height: 180px;width: 280px;margin-top: 15px;">
+            <img src="asserts/images/gonggao.jpg" style="width: 280px;height: 180px;">
+        </div>
+        <div style="padding-top: 20px;padding-left: 30px;padding-right:30px">
+            <p id="aa" class="string"></p>
+            <p style="display:none;" id="w">公告：本网站为公益网站，严禁利用本网站进行私下交易，谢谢合作。近日有骗子利用本网站发布不实信息进行诈骗，谨防上当受骗！</p>
+        </div>
+
+        <script type="text/javascript">
+            window.onload = type;
+            var index = 0;
+            var word = $("#w").html();
+            function type(){
+                    $("#aa").html(word.substring(0,index++));
+                    if(index > word.length) {
+                        index=0;
+                        // $("#aa").css("display","none");
+                        setTimeout(type,430);
+                    } else {
+                        setTimeout(type,430);
+                    };
+            }
+        </script>
+    </div>
+</div>
+
+<!-- 失物招领信息提示栏 -->
+<div style="width: 950px;height: 50px;margin: 0 auto;text-align: center;line-height: 50px;background-color: #fcf8e3;margin-top: 5px;">
+    <span style="display:inline-block;width:350px;border-top:1px solid #4fb9e9;vertical-align:5px; "></span>
+    <span style="color:#4fb9e9;font-size: 15px"><strong><span id="shiWuZhaoLingProvince">全国</span>失物招领信息</strong></span>
+    <span style="display:inline-block;width:350px; border-top:1px solid #4fb9e9;vertical-align:5px; "></span>
+</div>
+
+<!-- 内容展示 -->
+<div style="width: 950px;margin: 0 auto;margin-top: 10px;background: rgba(255,255,255,0.5)" id="content">
+    <!--<div style="height: 400px;width: 300px;float: left;margin-top: 15px;margin-left: 11px;border: solid 2px red;background-color: #fcf8e3;"class="content">
+        <div style="border: solid 2px red;width: 250px;height: 40px;overflow: hidden;line-height: 30px;margin-top: 15px;margin-left: 20px;">
+            <div style="height: 10px;width: 250px;">我今天捡到一个东西</div>
+            <hr style="height:1px;border:none;border-top:1px groove skyblue;" />
+        </div>
+        <div style="border: solid 2px red;width: 250px;height: 200px;margin-left: 20px;">
+            <img src="asserts/images/lbt1.jpg" style="height: 200px;width: 250px;">
+        </div>
+        <div style="border: solid 2px red;width: 250px;height: 30px;margin-left: 20px;line-height: 30px;">
+            <span><strong>广州-招领启事</strong></span>
+        </div>
+        <div style="border: solid 2px red;width: 250px;height: 70px;margin-left: 20px;line-height: 20px;overflow: hidden">
+            <span>商品描述：第三方机构刚开始打飞机更深刻的国防生的股份是大法官公司借款部分更多发育可以飞飞鱼服修复了</span>
+        </div>
+        <div style="border: solid 2px red;width: 250px;height: 25px;margin-left: 20px;line-height: 20px;">
+            <div style="float: right;">2019-12-20</div>
+        </div>
+    </div>-->
+<!--    <div style="height: 400px;width: 300px;float: left;margin-top: 15px;margin-left: 11px;border: solid 2px red"></div>
+    <div style="height: 400px;width: 300px;float: left;margin-top: 15px;margin-left: 11px;border: solid 2px red"></div>
+    <div style="height: 400px;width: 300px;float: left;margin-top: 15px;margin-left: 11px;border: solid 2px red"></div>-->
+    <!--<div style="clear:both;"></div>-->
+</div>
+
+<!-- 分页跳转 -->
+<div style="width:950px;height: 40px;margin: 0 auto;margin-top: 10px;background-color: #fcf8e3;">
+    <div style="width: 500px;margin: 0 auto;">
+        <div style="float: left;padding-top: 8px;padding-left:6px">
+            <a href="#" id="first">首页</a>
+        </div>
+        <div style="float: left;padding-top: 8px;padding-left:6px">
+            <a href="#" id="last">上一页</a>
+        </div>
+        <div style="float: left;padding-top: 8px;padding-left:6px">
+            <a href="#" id="next">下一页</a>
+        </div>
+        <div style="float: left;padding-top: 8px;padding-left:6px">
+            <a href="#" id="end">尾页</a>
+        </div>
+        <div style="float: left;padding: 6px">
+            <input type="text" value="1" id="currentPage" style="text-align: center"><a href="#" id="jump">&nbsp跳转</a>
+        </div>
+        <!-- 隐藏当前页 -->
+        <input type="hidden" value="1" id="hiddenPage">
+        <!-- 隐藏总页数 -->
+        <input type="hidden" value="pageCount" id="pageCount">
+        <div style="clear: both;"></div>
+    </div>
+</div>
+
+<!-- 底部 -->
+<div style="width: 600px;height: 100px;margin: 0 auto;text-align: center;margin-top: 30px;">
+    <p style="color: white;">
+        Copyright © 2009-2019 Qian Feng <a href="aboutUs.html" style="color: greenyellow;">Lost and found Team</a> 版权所有 |
+        <a href="headPage.html" style="color: greenyellow;">Home Page</a>
+    </p>
+    <p style="color: white;">
+        增值电信业务经营许可证：<a href="http://beian.miit.gov.cn/" target="_blank">粤B2-20080101</a>
+    </p>
+</div>
 </body>
-<div id="footer"></div>
 </html>

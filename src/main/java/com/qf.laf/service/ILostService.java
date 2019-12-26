@@ -40,4 +40,7 @@ public interface ILostService {
      * @return
      */
     Boolean updateLost(Lost lost);
+
+
+    Lost  findLostById(Integer id);
 }

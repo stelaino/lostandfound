@@ -55,4 +55,8 @@
     <update id="updateLost">
         update lost set title=#{lost.title},body=#{lost.body} where l_msg_id=#{lost.lMsgId}
     </update>
+
+    <select id="findLostById" resultMap="lost_details">
+             select * from lost  where l_msg_id= #{id};
+    </select>
 </mapper>

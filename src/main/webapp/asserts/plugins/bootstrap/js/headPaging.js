@@ -115,6 +115,7 @@ $(function () {
                 //首页进入时隐藏上一页
                 $("#last").css("display","none");
                 $("#currentPage").val(1);
+                $("#hiddenCity").css("display","none");
             }
         })
     });
@@ -300,8 +301,10 @@ $(function () {
             data:JSON.stringify({"lMsgId":lMsgId}),
             //响应的数据类型
             dataType:"JSON",
-            success:function () {
-                location.href = "lost.html";
+            success:function (msg) {
+                if (msg == true) {
+                    location.href = "lost.html";
+                }
             }
         })
     });

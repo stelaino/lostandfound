@@ -9,7 +9,7 @@
         <result property="sex" column="sex"/>
         <result property="phone" column="email"/>
         <result property="email" column="email"/>
-<!--        <result property="createTime" column="create_time" javaType="java.util.Date"/>-->
+        <!--        <result property="createTime" column="create_time" javaType="java.util.Date"/>-->
     </resultMap>
     <select id="checkUserUId" resultType="Integer">
         select u_id from user where u_name=#{user.uName} and u_password=#{user.uPassword};
@@ -18,4 +18,11 @@
     <select id="getUserByUId" resultMap="userMap">
         select * from user where is_delete=1 and u_id=#{id};
     </select>
+
+    <!--注册-->
+    <insert id="register" keyProperty="user.uId" useGeneratedKeys="true">
+        insert into user (u_name,u_password,sex,phone,email) values (#{user.uName}, #{user.uPassword},#{user.sex},#{user.phone},#{user.email})
+    </insert>
+
+
 </mapper>

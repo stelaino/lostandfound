@@ -62,10 +62,10 @@ public class PickupController {
         return "修改失败";
     }
 
-    @RequestMapping("/setUId")
-    public String setUId(HttpServletRequest request, @RequestParam("uid") Integer uid) {
-        request.getSession().setAttribute("uId", uid);
-        return "设置成功";
+    @RequestMapping(value = "/findPickup")
+    public Pickup  findPickup( HttpServletRequest request){
+        Integer pMsgId =(Integer) request.getSession().getAttribute("pMsgId");
+        System.out.println(pMsgId);
+        return  pickupService.findPickupById(1);
     }
-
 }

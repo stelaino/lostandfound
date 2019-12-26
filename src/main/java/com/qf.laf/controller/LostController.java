@@ -20,12 +20,10 @@ public class LostController {
     @Resource
     ILostService lostService;
     OssUtil ossUtil = new OssUtil();
-    private String img1="";
-    private String img2="";
 
     @PostMapping("/addLostRow")
     @ResponseBody
-    public  Lost addLostRow(@RequestBody Lost lost,HttpServletRequest request) {
+    public Lost addLostRow(@RequestBody Lost lost, HttpServletRequest request) {
         Integer uId = (Integer) request.getSession().getAttribute("uId");
         lost.setUId(uId);
         System.out.println(lost);
@@ -34,7 +32,7 @@ public class LostController {
     }
 
     @PostMapping("/uploadImg")
-    public String uploadImg(@RequestParam("img") MultipartFile file){
+    public String uploadImg(@RequestParam("img") MultipartFile file) {
         System.out.println(file.getOriginalFilename());
         return ossUtil.uploadImg2Oss(file);
     }
@@ -48,7 +46,6 @@ public class LostController {
     public List<Lost> getLostListByUId(HttpSession session) {
         //模拟登录id
         Integer uId = (Integer) session.getAttribute("uId");
-//        Integer uId = (Integer) request.getSession().getAttribute("uId");
         return lostService.getLostListByUId(uId);
     }
 
@@ -68,11 +65,12 @@ public class LostController {
         }
         return "修改失败";
     }
-
-    @RequestMapping("/setUId")
-    public String setUId(HttpSession session, @RequestParam("uid") Integer uid) {
-        session.setAttribute("uId",uid);
-        return "设置成功";
+    @RequestMapping(value = "/getLost")
+    public Lost  getLost(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Integer lMsgId =(Integer) session.getAttribute("lMsgId");
+        Lost lost = lostService.findLostById(lMsgId);
+        System.out.println(lost);
+        return  lost;
     }
-
 }

@@ -56,4 +56,8 @@ public class PickupServiceImpl implements IPickupService {
         }
         return false;
     }
+    @Override
+    public Pickup findPickupById(int id) {
+        return   pickupMapper.findPickupById(id);
+    }
 }

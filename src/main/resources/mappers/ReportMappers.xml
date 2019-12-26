@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.laf.mapper.IReportMapper">
+            <resultMap id="ReportMap" type="Report">
+                <id property="rId" column="r_id"/>
+                <result property="aId" column="a_id"/>
+                <result property="uId" column="u_id"/>
+                <result property="msgId" column="msg_id"/>
+                <result property="type" column="r_type"/>
+<!--                 举报次数-->
+<!--                <result property="total" column="total"/>-->
+<!--                 创建时间-->
+<!--                <result property="createTime" column="create_time"/>-->
+                <result property="reportData" column="r_reportDate"/>
+            </resultMap>
+            <insert id="addReport"  useGeneratedKeys="true">
+                insert  into  report(msg_id,u_id,r_reportDate,r_type) values(#{report.msgId},#{report.uId},#{report.reportData},#{report.type});
+            </insert>
+</mapper>

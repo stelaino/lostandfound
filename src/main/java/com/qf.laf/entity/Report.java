@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class report {
+public class Report {
     //报告id
     private Integer rId;
     //审核本条操作的用户的管理员
@@ -20,4 +20,7 @@ public class report {
     private String type;
     //创建的时间
     private Date createTime;
+    //举报内容
+    private String reportData;
+
 }

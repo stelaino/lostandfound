@@ -22,7 +22,7 @@ public class SearchController {
 
     //首页或者寻物页搜索框通过省和相关内容进行搜索
     @PostMapping("/search1")
-    public Page search1(HttpServletRequest request, @RequestBody Page page){
+    public Page search1(HttpServletRequest request, @RequestBody Page page) {
         //获取内容（关键字）
         String context = page.getContext();
         //获取当前页
@@ -35,7 +35,7 @@ public class SearchController {
 
     //招领页搜索框通过省份和相关内容进行搜索
     @PostMapping("/search2")
-    public Page search2(HttpServletRequest request, @RequestBody Page page){
+    public Page search2(HttpServletRequest request, @RequestBody Page page) {
         //获取内容（关键字）
         String context = page.getContext();
         //获取当前页
@@ -48,7 +48,7 @@ public class SearchController {
 
     //寻物页通过省份和类型进行筛选
     @PostMapping("/search3")
-    public Page search3(HttpServletRequest request, @RequestBody Page page){
+    public Page search3(HttpServletRequest request, @RequestBody Page page) {
         //获取类型
         String type = page.getType();
         //获取当前页
@@ -61,7 +61,7 @@ public class SearchController {
 
     //招领页通过省份和类型进行筛选
     @PostMapping("/search4")
-    public Page search4(HttpServletRequest request, @RequestBody Page page){
+    public Page search4(HttpServletRequest request, @RequestBody Page page) {
         //获取类型
         String type = page.getType();
         //获取当前页
@@ -75,7 +75,7 @@ public class SearchController {
 
     //寻物页通过市和类型进行筛选
     @PostMapping("/search5")
-    public Page search5(HttpServletRequest request, @RequestBody Page page){
+    public Page search5(HttpServletRequest request, @RequestBody Page page) {
         //获取类型
         String type = page.getType();
         //获取当前页
@@ -88,7 +88,7 @@ public class SearchController {
 
     //招领页通过市和类型进行筛选
     @PostMapping("/search6")
-    public Page search6(HttpServletRequest request, @RequestBody Page page){
+    public Page search6(HttpServletRequest request, @RequestBody Page page) {
         //获取类型
         String type = page.getType();
         //获取当前页
@@ -101,7 +101,7 @@ public class SearchController {
 
     //寻物页快速筛选框进行关键字搜索（没有选择市但是选择了类型（传递省，类型，关键字和当前页））
     @PostMapping("/search7")
-    public Page search7(HttpServletRequest request, @RequestBody Page page){
+    public Page search7(HttpServletRequest request, @RequestBody Page page) {
         //获取类型
         String type = page.getType();
         //获取当前页
@@ -116,7 +116,7 @@ public class SearchController {
 
     //招领页快速筛选框进行关键字搜索（没有选择市但是选择了类型（传递省，类型，关键字和当前页））
     @PostMapping("/search8")
-    public Page search8(HttpServletRequest request, @RequestBody Page page){
+    public Page search8(HttpServletRequest request, @RequestBody Page page) {
         //获取类型
         String type = page.getType();
         //获取当前页
@@ -131,7 +131,7 @@ public class SearchController {
 
     //失物页面快速筛选框进行关键字搜索（选择了市没有选择类型（传递市，关键字和当前页））
     @PostMapping("/search9")
-    public Page search9(HttpServletRequest request, @RequestBody Page page){
+    public Page search9(HttpServletRequest request, @RequestBody Page page) {
         //获取市
         String city = page.getCity();
         //获取关键字
@@ -144,7 +144,7 @@ public class SearchController {
 
     //招领页面快速筛选框进行关键字搜索（选择了市没有选择类型（传递市，关键字和当前页））
     @PostMapping("/search10")
-    public Page search10(HttpServletRequest request, @RequestBody Page page){
+    public Page search10(HttpServletRequest request, @RequestBody Page page) {
         //获取市
         String city = page.getCity();
         //获取关键字
@@ -157,7 +157,7 @@ public class SearchController {
 
     //失物页面快速筛选框进行关键字搜索（选择了市也选择了类型（传市，类型，关键字，当前页））
     @PostMapping("/search11")
-    public Page search11(HttpServletRequest request, @RequestBody Page page){
+    public Page search11(HttpServletRequest request, @RequestBody Page page) {
         //获取类型
         String type = page.getType();
         //获取当前页
@@ -172,7 +172,7 @@ public class SearchController {
 
     //招领页面快速筛选框进行关键字搜索（选择了市也选择了类型（传市，类型，关键字，当前页））
     @PostMapping("/search12")
-    public Page search12(HttpServletRequest request, @RequestBody Page page){
+    public Page search12(HttpServletRequest request, @RequestBody Page page) {
         //获取类型
         String type = page.getType();
         //获取当前页
@@ -187,19 +187,25 @@ public class SearchController {
 
     //点击失物帖子
     @PostMapping("/search13")
-    public void search13(HttpServletRequest request, @RequestBody Lost lost){
+    public Boolean search13(HttpServletRequest request, @RequestBody Lost lost) {
         //获取lMsgId
         Integer lMsgId = lost.getLMsgId();
-        System.out.println(lMsgId);
-        request.getSession().setAttribute("lMsgId",lMsgId);
+        if (lMsgId != null) {
+            request.getSession().setAttribute("lMsgId", lMsgId);
+            return true;
+        }
+        return false;
     }
 
     //点击招领帖子
     @PostMapping("/search14")
-    public void search14(HttpServletRequest request, @RequestBody Pickup pickup){
+    public Boolean search14(HttpServletRequest request, @RequestBody Pickup pickup) {
         //获取pMsgId
         Integer pMsgId = pickup.getPMsgId();
-        System.out.println(pMsgId);
-        request.getSession().setAttribute("lMsgId",pMsgId);
+        if (pMsgId != null) {
+            request.getSession().setAttribute("pMsgId", pMsgId);
+            return true;
+        }
+        return false;
     }
 }

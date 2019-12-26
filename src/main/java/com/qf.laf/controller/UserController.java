@@ -1,9 +1,12 @@
 package com.qf.laf.controller;
 
 import com.qf.laf.entity.User;
+import com.qf.laf.entity.VerifyCodeUtil;
 import com.qf.laf.service.IUserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -31,6 +34,7 @@ public class UserController {
         return "登录失败";
     }
 
+    //作用同findUserById()
     @RequestMapping("/getUser")
     public User getUserById(HttpSession session) {
         Integer uId = (Integer) session.getAttribute("uId");
@@ -55,5 +59,35 @@ public class UserController {
         }
         session.setAttribute("surl", surl);
         return false;
+    }
+
+    @RequestMapping(value = "/registerUser")
+    public String registerUser(@RequestBody User user) {
+        System.out.println(user);
+        userService.register(user);
+        return "注册成功";
+    }
+
+    //邮箱验证 在注册表单填写表单输入邮箱后 由邮箱发送6位数验证码
+    @RequestMapping(value = "/email")
+    @ResponseBody
+    public void codeSend(@Param("eamil")String email, HttpServletRequest request){
+        String code = VerifyCodeUtil.getRandomNumCode(6);
+        request.getSession().setAttribute("code",code);
+        userService.sendMail(email,code);
+        request.setAttribute("code",code);
+    }
+
+    //注册邮箱验证码验证 接收到6位数的验证码后并进行验证
+    @RequestMapping(value = "/codecheck")
+    @ResponseBody
+    public String codeCheck(@Param("code")String code,HttpServletRequest request){
+        String codesave = (String) request.getSession().getAttribute("code");
+        System.out.println(codesave);
+        if(codesave.equals(code)){
+            return "1";
+        }else{
+            return "0";
+        }
     }
 }

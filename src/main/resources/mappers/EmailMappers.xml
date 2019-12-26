@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.laf.mapper.IEmailMapper">
+    <resultMap id="EmailMap" type="Email">
+        <id property="eId" column="e_id"/>
+        <result property="eAddress" column="e_address"/>
+        <result property="body" column="body"/>
+        <result property="createTime" column="created_time"/>
+        <result property="genre" column="e_type"/>
+    </resultMap>
+    <insert id="addEmail" useGeneratedKeys="true">
+        insert  into email(e_address,body,e_type) values (#{email.eAddress},#{email.body},#{email.genre});
+    </insert>
+</mapper>

@@ -56,4 +56,9 @@ public class LostServiceImpl implements ILostService {
         }
         return false;
     }
+
+    @Override
+    public Lost findLostById(Integer id) {
+        return lostMapper.findLostById(id);
+    }
 }

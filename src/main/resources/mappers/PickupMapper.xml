@@ -58,4 +58,8 @@
     <update id="updatePickup">
         update pickup set title=#{pickup.title},body=#{pickup.body} where p_msg_id=#{pickup.pMsgId}
     </update>
+
+    <select id="findPickupById" resultMap="pickup_details">
+            select * from pickup where p_msg_id=#{id};
+    </select>
 </mapper>

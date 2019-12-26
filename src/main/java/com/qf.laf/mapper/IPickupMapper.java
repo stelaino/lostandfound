@@ -15,4 +15,7 @@ public interface IPickupMapper {
     Integer deletePickupByPMsgId(@Param("pMsgId") Integer pMsgId);
 
     Integer updatePickup(@Param("pickup") Pickup pickup);
+
+    //通过id查找招领信息
+    Pickup  findPickupById(@Param("id") int id);
 }

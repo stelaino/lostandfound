@@ -56,8 +56,8 @@ public class OssUtil {
         String substring = originalFilename.toLowerCase();
         String name = UUID.randomUUID() +"_"+ substring;
         try {
-//            InputStream inputStream = file.getInputStream();
-//            this.uploadFile2OSS(inputStream, name);
+            InputStream inputStream = file.getInputStream();
+            this.uploadFile2OSS(inputStream, name);
             return "https://cargogo.oss-cn-shenzhen.aliyuncs.com/lostandfound/"+name;//RestResultGenerator.createSuccessResult(name);
         } catch (Exception e) {
             return "上传失败";//RestResultGenerator.createErrorResult(ResponseEnum.PHOTO_UPLOAD);

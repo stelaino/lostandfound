@@ -11,4 +11,6 @@ public class Email {
     private String body;
     //创建的时间
     private String createTime;
+    //哪个表发出的线索
+    private String genre;
 }

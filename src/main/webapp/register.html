@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>register</title>
+    <meta name="description" content>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <!-- 引入Bootstrap CSS-->
+    <link rel="stylesheet" href="asserts/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <link rel="stylesheet" href="asserts/plugins/bootstrap/css/style.default.css" id="theme-stylesheet">
+    <script src="asserts/plugins/jquery/jquery-3.4.1.min.js"></script>
+    <script>
+        function check() {
+            var name = $("#rg_name").val();
+            var password = $("#pwd").val();
+            var phone = $("#phone").val();
+            var email = $("#email").val();
+            var sex = $("#sex").val();
+            var code = $("#code").val();
+            if(name==null||password==null||phone==null||email||null||email||null||sex==null||code==null){
+                alert("请正确填写表单")
+                return false;
+            }else {
+                return true;
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        /*邮箱验证码的校验*/
+        $(function () {
+            $("#codesub").click(function () {
+                console.log("验证码提交")
+                var cdsub = $("#code").val();
+                settings={
+                    type:"post",
+                    data:{"code":cdsub},
+                    dataType:"JSON",
+                    success:function (cdsub) {
+                        if(cdsub == "1"){
+                            alert("验证成功")
+                        }else {
+                            alert("验证失败,请重新获取验证码")
+                        }
+                    }
+                }
+                $.ajax("http://localhost:8080/lostandfound/user/codecheck",settings)
+            })
+        })
+    </script>
+    <script type="text/javascript">
+        /*发送验证码到到指定的邮箱*/
+        $(function () {
+            $('#codeget').click(function () {
+                console.log("email");
+                var eml =  $("#email").val();
+                settings= {
+                    type: "post",
+                    data: {"email":eml},
+                    dataType: "JSON",
+                    // contentType: "application/json;charset=UTF-8",
+                    success: function (eml) {
+                        if (eml != null) {
+                            alert("验证码发送成功");
+                        }  else {
+                            alert("验证码发送失败")
+                        }
+                    }
+                }
+                $.ajax("http://localhost:8080/lostandfound/user/email", settings);
+            })
+        })
+
+
+    </script>
+    <script type="text/javascript">
+        /*注册表单的提交*/
+        $(function () {
+            $('#addUser').click(function () {
+                data  = {
+                    uPassword: $("#pwd").val(),
+                        uName: $("#rg_name").val(),
+                    phone:$("#phone").val(),
+                    email:$("#email").val(),
+                    sex:$("input[name='sex']:checked").val(),
+                    code:$("code").val(),
+                }
+                settings={
+                    type: "post",
+                    data: JSON.stringify(data),
+
+                    dataType: "JSON",
+                    contentType: "application/json;charset=UTF-8",
+                    success: function (data) {
+                        console.log(data)
+                        if (data == -1) {
+                            alert("数据输入有误!");
+                        } else if (data == 0) {
+                            alert("用户已存在!");
+                        } else {
+                            location.href = "login.html";
+                        }
+                    }}
+                $.ajax("http://localhost:8080/lostandfound/user/registerUser", settings);
+            })
+        })
+    </script>
+</head>
+<body style>
+<form class="bs-example bs-example-form" role="form" method="post" >
+    <div class="page login-page">
+        <div class="container d-flex align-items-center">
+            <div class="form-holder has-shadow">
+                <div class="row">
+                    <!-- Logo & Information Panel-->
+                    <div class="col-lg-6">
+                        <div class="info d-flex align-items-center">
+                            <div class="content">
+                                <div class="logo">
+                                    <h1>欢迎注册失物招领平台</h1>
+                                </div>
+                                <p>欢迎大家一起加入失物招领</p>
+                            </div>
+                            <div style="margin-top: 625px">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form Panel 表单区域的DIV   -->
+                    <div class="col-lg-6 bg-white">
+                        <div class="form d-flex align-items-center">
+                            <div class="content">
+                                <div class="form-group">
+                                    <input id="rg_name" class="input-material" type="text" name="registerUsername" placeholder="请输入用户名">
+                                    <div class="invalid-feedback">
+                                        用户名必须在2~10位之间
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input id="pwd" class="input-material" type="password" name="registerPassword" placeholder="请输入密码">
+                                    <div class="invalid-feedback">
+                                        密码必须在6~10位之间
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input id="pwdcheck" class="input-material" type="password" name="registerPasswords" placeholder="确认密码">
+                                    <div class="invalid-feedback">
+                                        两次密码必须相同 且在6~10位之间
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="addUser" class="control-label">性别：</label><br />
+                                    <input type="radio" value="man" class="control-label" name="sex">男
+                                    <input type="radio" value="women" class="control-label" name="sex">女
+                                </div>
+                                <div class="form-group">
+                                    <input id="phone" class="input-material" type="text" name="registerPhone" placeholder="请输入电话号码">
+                                    <div class="invalid-feedback">
+                                        请输入电话号码
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input id="email" class="input-material" type="text" name="registerEmail" placeholder="请输入邮箱">
+                                    <div class="invalid-feedback">
+                                        请点击右侧按钮以获取验证码
+                                        <button id="codeget" type="button" name="registercodeget" class="btn btn-primary">获取验证码</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input id="code" class="input-material" type="text" name="registerEmailCode" placeholder="请输入验证码">
+                                    <div class="invalid-feedback">
+                                        请输入从邮箱获取到的验证码
+                                        <button id="codesub" type="button" name="registerEmailCodeSub" class="btn btn-primary">提交验证码</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button id="addUser" type="button" name="registerSubmit" class="btn btn-primary">注册</button>
+                                </div>
+                                <small>已有账号?</small><a href="login.html" class="signup">&nbsp;登录</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- JavaScript files 表单提交的数据格式的前端JS校验-->
+                    <script src="asserts/plugins/bootstrap/js/jquery.min.js"></script>
+                    <script src="asserts/plugins/bootstrap/js/bootstrap.min.js"></script>
+                    <script>
+                        $(function(){
+                            /*错误class  form-control is-invalid
+                            正确class  form-control is-valid*/
+                            var flagName=false;
+                            var flagPas=false;
+                            var flagPass=false;
+                            var flagPhone=false;
+                            var flagMail=false;
+                            /*验证用户名*/
+                            var name,password,pcheck,mobile,mail;
+                            $("#rg_name").change(function(){
+                                name=$("#rg_name").val();
+                                if(name.length<2||name.length>10){
+                                    $("#rg_name").removeClass("form-control is-valid")
+                                    $("#rg_name").addClass("form-control is-invalid");
+                                    flagName=false;
+                                }else{
+                                    $("#rg_name").removeClass("form-control is-invalid")
+                                    $("#rg_name").addClass("form-control is-valid");
+                                    flagName=true;
+                                }
+                            })
+                            /*验证密码*/
+                            $("#pwd").change(function(){
+                                password=$("#pwd").val();
+                                if(password.length<6||password.length>18){
+                                    $("#pwd").removeClass("form-control is-valid")
+                                    $("#pwd").addClass("form-control is-invalid");
+                                    flagPas=false;
+                                }else{
+                                    $("#pwd").removeClass("form-control is-invalid")
+                                    $("#pwd").addClass("form-control is-valid");
+                                    flagPas=true;
+                                }
+                            })
+                            /*验证确认密码*/
+                            $("#pwdcheck").change(function(){
+                                pcheck=$("#pwdcheck").val();
+                                console.log(pcheck);
+                                if((password!=pcheck)||(pcheck.length<6||pcheck.length>18)){
+                                    $("#pwdcheck").removeClass("form-control is-valid")
+                                    $("#pwdcheck").addClass("form-control is-invalid");
+                                    flagPass=false;
+                                }else{
+                                    $("#pwdcheck").removeClass("form-control is-invalid")
+                                    $("#pwdcheck").addClass("form-control is-valid");
+                                    flagPass=true;
+                                }
+                            })
+                            /*验证手机号*/
+                            $("#phone").change(function () {
+                                mobile=$("#phone").val();
+                                if(!(/^1[3456789]\d{9}$/.test(mobile))){
+                                    $("#phone").removeClass("form-control is-valid")
+                                    $("#phone").addClass("form-control is-invalid");
+                                    flagPass=false;
+                                }else{
+                                    $("#phone").removeClass("form-control is-invalid")
+                                    $("#phone").addClass("form-control is-valid");
+                                    flagPass=true;
+                                }
+                            })
+                            /*验证email*/
+                            $("#email").change(function () {
+                                mail=$("#email").val();
+                                if(!(/^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(mail))){
+                                    $("#email").removeClass("form-control is-valid")
+                                    $("#email").addClass("form-control is-invalid");
+                                    flagMail=false;
+                                }else {
+                                    $("#email").removeClass("form-control is-invalid")
+                                    $("#email").addClass("form-control is-valid");
+                                    flagMail=true;
+                                }
+                            })
+
+
+                            $("#addUser").click(function(){
+                                if(flagName&&flagPas&&flagPass&&flagPhone&&flagMail){
+                                    localStorage.setItem("uName",name);
+                                    localStorage.setItem("uPassword",password);
+                                    localStorage.setItem("phone",mobile);
+                                    localStorage.setItem("email",mail);
+                                    cssub == "1";
+                                    location="register.html"
+                                }else{
+                                    if(!flagName){
+                                        $("#rg_name").addClass("form-control is-invalid");
+                                    }
+                                    if(!flagPas){
+                                        $("#pwd").addClass("form-control is-invalid");
+                                    }
+                                    if(!flagPass){
+                                        $("#pwdcheck").addClass("form-control is-invalid");
+                                    }
+                                    if(!flagPhone){
+                                        $("#phone").addClass("form-control is-invalid");
+                                    }
+                                    if(!flagMail){
+                                        $("#email").addClass("form-control is-invalid");
+                                    }
+
+                                }
+                            })
+                        })
+                    </script>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

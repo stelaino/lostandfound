@@ -17,4 +17,7 @@ public interface ILostMapper {
     Integer deleteLostByLMsgId(@Param("lMsgId") Integer lMsgId);
 
     Integer updateLost(@Param("lost") Lost lost);
+
+    //通过用户ID查询寻物信息2
+    Lost findLostById(@Param(value = "id") Integer id);
 }

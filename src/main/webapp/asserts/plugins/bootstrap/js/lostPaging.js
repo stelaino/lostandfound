@@ -207,6 +207,7 @@ $(function () {
                 $("select option:eq(0)").attr("selected","selected");
                 $("#word").val("");
                 $("#currentPage").val(1);
+                $("#hiddenCity").css("display","none");
             }
         });
     });
